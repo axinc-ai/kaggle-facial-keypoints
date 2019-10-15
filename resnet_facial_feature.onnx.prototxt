@@ -1,0 +1,2131 @@
+ir_version: 4
+producer_name: "pytorch"
+producer_version: "1.2"
+model_version: 0
+graph {
+  name: "torch-jit-export"
+  node {
+    input: "input.1"
+    input: "first_conv.weight"
+    input: "first_conv.bias"
+    output: "68"
+    op_type: "Conv"
+    attribute {
+      name: "dilations"
+      ints: 1
+      ints: 1
+      type: INTS
+    }
+    attribute {
+      name: "group"
+      i: 1
+      type: INT
+    }
+    attribute {
+      name: "kernel_shape"
+      ints: 5
+      ints: 5
+      type: INTS
+    }
+    attribute {
+      name: "pads"
+      ints: 1
+      ints: 1
+      ints: 1
+      ints: 1
+      type: INTS
+    }
+    attribute {
+      name: "strides"
+      ints: 2
+      ints: 2
+      type: INTS
+    }
+  }
+  node {
+    input: "68"
+    input: "block_1.block.0.weight"
+    input: "block_1.block.0.bias"
+    input: "block_1.block.0.running_mean"
+    input: "block_1.block.0.running_var"
+    output: "69"
+    op_type: "BatchNormalization"
+    attribute {
+      name: "epsilon"
+      f: 9.999999747378752e-06
+      type: FLOAT
+    }
+    attribute {
+      name: "momentum"
+      f: 0.8999999761581421
+      type: FLOAT
+    }
+  }
+  node {
+    input: "69"
+    output: "70"
+    op_type: "Relu"
+  }
+  node {
+    input: "70"
+    input: "block_1.block.2.weight"
+    input: "block_1.block.2.bias"
+    output: "71"
+    op_type: "Conv"
+    attribute {
+      name: "dilations"
+      ints: 1
+      ints: 1
+      type: INTS
+    }
+    attribute {
+      name: "group"
+      i: 1
+      type: INT
+    }
+    attribute {
+      name: "kernel_shape"
+      ints: 3
+      ints: 3
+      type: INTS
+    }
+    attribute {
+      name: "pads"
+      ints: 1
+      ints: 1
+      ints: 1
+      ints: 1
+      type: INTS
+    }
+    attribute {
+      name: "strides"
+      ints: 2
+      ints: 2
+      type: INTS
+    }
+  }
+  node {
+    input: "71"
+    input: "block_1.block.3.weight"
+    input: "block_1.block.3.bias"
+    input: "block_1.block.3.running_mean"
+    input: "block_1.block.3.running_var"
+    output: "72"
+    op_type: "BatchNormalization"
+    attribute {
+      name: "epsilon"
+      f: 9.999999747378752e-06
+      type: FLOAT
+    }
+    attribute {
+      name: "momentum"
+      f: 0.8999999761581421
+      type: FLOAT
+    }
+  }
+  node {
+    input: "72"
+    output: "73"
+    op_type: "Relu"
+  }
+  node {
+    input: "73"
+    input: "block_1.block.6.weight"
+    input: "block_1.block.6.bias"
+    output: "74"
+    op_type: "Conv"
+    attribute {
+      name: "dilations"
+      ints: 1
+      ints: 1
+      type: INTS
+    }
+    attribute {
+      name: "group"
+      i: 1
+      type: INT
+    }
+    attribute {
+      name: "kernel_shape"
+      ints: 3
+      ints: 3
+      type: INTS
+    }
+    attribute {
+      name: "pads"
+      ints: 1
+      ints: 1
+      ints: 1
+      ints: 1
+      type: INTS
+    }
+    attribute {
+      name: "strides"
+      ints: 1
+      ints: 1
+      type: INTS
+    }
+  }
+  node {
+    input: "68"
+    input: "block_1.downsample.0.weight"
+    input: "block_1.downsample.0.bias"
+    input: "block_1.downsample.0.running_mean"
+    input: "block_1.downsample.0.running_var"
+    output: "75"
+    op_type: "BatchNormalization"
+    attribute {
+      name: "epsilon"
+      f: 9.999999747378752e-06
+      type: FLOAT
+    }
+    attribute {
+      name: "momentum"
+      f: 0.8999999761581421
+      type: FLOAT
+    }
+  }
+  node {
+    input: "75"
+    input: "block_1.downsample.1.weight"
+    input: "block_1.downsample.1.bias"
+    output: "76"
+    op_type: "Conv"
+    attribute {
+      name: "dilations"
+      ints: 1
+      ints: 1
+      type: INTS
+    }
+    attribute {
+      name: "group"
+      i: 1
+      type: INT
+    }
+    attribute {
+      name: "kernel_shape"
+      ints: 1
+      ints: 1
+      type: INTS
+    }
+    attribute {
+      name: "pads"
+      ints: 0
+      ints: 0
+      ints: 0
+      ints: 0
+      type: INTS
+    }
+    attribute {
+      name: "strides"
+      ints: 2
+      ints: 2
+      type: INTS
+    }
+  }
+  node {
+    input: "74"
+    input: "76"
+    output: "77"
+    op_type: "Add"
+  }
+  node {
+    input: "77"
+    input: "block_2.block.0.weight"
+    input: "block_2.block.0.bias"
+    input: "block_2.block.0.running_mean"
+    input: "block_2.block.0.running_var"
+    output: "78"
+    op_type: "BatchNormalization"
+    attribute {
+      name: "epsilon"
+      f: 9.999999747378752e-06
+      type: FLOAT
+    }
+    attribute {
+      name: "momentum"
+      f: 0.8999999761581421
+      type: FLOAT
+    }
+  }
+  node {
+    input: "78"
+    output: "79"
+    op_type: "Relu"
+  }
+  node {
+    input: "79"
+    input: "block_2.block.2.weight"
+    input: "block_2.block.2.bias"
+    output: "80"
+    op_type: "Conv"
+    attribute {
+      name: "dilations"
+      ints: 1
+      ints: 1
+      type: INTS
+    }
+    attribute {
+      name: "group"
+      i: 1
+      type: INT
+    }
+    attribute {
+      name: "kernel_shape"
+      ints: 3
+      ints: 3
+      type: INTS
+    }
+    attribute {
+      name: "pads"
+      ints: 1
+      ints: 1
+      ints: 1
+      ints: 1
+      type: INTS
+    }
+    attribute {
+      name: "strides"
+      ints: 2
+      ints: 2
+      type: INTS
+    }
+  }
+  node {
+    input: "80"
+    input: "block_2.block.3.weight"
+    input: "block_2.block.3.bias"
+    input: "block_2.block.3.running_mean"
+    input: "block_2.block.3.running_var"
+    output: "81"
+    op_type: "BatchNormalization"
+    attribute {
+      name: "epsilon"
+      f: 9.999999747378752e-06
+      type: FLOAT
+    }
+    attribute {
+      name: "momentum"
+      f: 0.8999999761581421
+      type: FLOAT
+    }
+  }
+  node {
+    input: "81"
+    output: "82"
+    op_type: "Relu"
+  }
+  node {
+    input: "82"
+    input: "block_2.block.6.weight"
+    input: "block_2.block.6.bias"
+    output: "83"
+    op_type: "Conv"
+    attribute {
+      name: "dilations"
+      ints: 1
+      ints: 1
+      type: INTS
+    }
+    attribute {
+      name: "group"
+      i: 1
+      type: INT
+    }
+    attribute {
+      name: "kernel_shape"
+      ints: 3
+      ints: 3
+      type: INTS
+    }
+    attribute {
+      name: "pads"
+      ints: 1
+      ints: 1
+      ints: 1
+      ints: 1
+      type: INTS
+    }
+    attribute {
+      name: "strides"
+      ints: 1
+      ints: 1
+      type: INTS
+    }
+  }
+  node {
+    input: "77"
+    input: "block_2.downsample.0.weight"
+    input: "block_2.downsample.0.bias"
+    input: "block_2.downsample.0.running_mean"
+    input: "block_2.downsample.0.running_var"
+    output: "84"
+    op_type: "BatchNormalization"
+    attribute {
+      name: "epsilon"
+      f: 9.999999747378752e-06
+      type: FLOAT
+    }
+    attribute {
+      name: "momentum"
+      f: 0.8999999761581421
+      type: FLOAT
+    }
+  }
+  node {
+    input: "84"
+    input: "block_2.downsample.1.weight"
+    input: "block_2.downsample.1.bias"
+    output: "85"
+    op_type: "Conv"
+    attribute {
+      name: "dilations"
+      ints: 1
+      ints: 1
+      type: INTS
+    }
+    attribute {
+      name: "group"
+      i: 1
+      type: INT
+    }
+    attribute {
+      name: "kernel_shape"
+      ints: 1
+      ints: 1
+      type: INTS
+    }
+    attribute {
+      name: "pads"
+      ints: 0
+      ints: 0
+      ints: 0
+      ints: 0
+      type: INTS
+    }
+    attribute {
+      name: "strides"
+      ints: 2
+      ints: 2
+      type: INTS
+    }
+  }
+  node {
+    input: "83"
+    input: "85"
+    output: "86"
+    op_type: "Add"
+  }
+  node {
+    input: "86"
+    input: "block_3.block.0.weight"
+    input: "block_3.block.0.bias"
+    input: "block_3.block.0.running_mean"
+    input: "block_3.block.0.running_var"
+    output: "87"
+    op_type: "BatchNormalization"
+    attribute {
+      name: "epsilon"
+      f: 9.999999747378752e-06
+      type: FLOAT
+    }
+    attribute {
+      name: "momentum"
+      f: 0.8999999761581421
+      type: FLOAT
+    }
+  }
+  node {
+    input: "87"
+    output: "88"
+    op_type: "Relu"
+  }
+  node {
+    input: "88"
+    input: "block_3.block.2.weight"
+    input: "block_3.block.2.bias"
+    output: "89"
+    op_type: "Conv"
+    attribute {
+      name: "dilations"
+      ints: 1
+      ints: 1
+      type: INTS
+    }
+    attribute {
+      name: "group"
+      i: 1
+      type: INT
+    }
+    attribute {
+      name: "kernel_shape"
+      ints: 3
+      ints: 3
+      type: INTS
+    }
+    attribute {
+      name: "pads"
+      ints: 1
+      ints: 1
+      ints: 1
+      ints: 1
+      type: INTS
+    }
+    attribute {
+      name: "strides"
+      ints: 2
+      ints: 2
+      type: INTS
+    }
+  }
+  node {
+    input: "89"
+    input: "block_3.block.3.weight"
+    input: "block_3.block.3.bias"
+    input: "block_3.block.3.running_mean"
+    input: "block_3.block.3.running_var"
+    output: "90"
+    op_type: "BatchNormalization"
+    attribute {
+      name: "epsilon"
+      f: 9.999999747378752e-06
+      type: FLOAT
+    }
+    attribute {
+      name: "momentum"
+      f: 0.8999999761581421
+      type: FLOAT
+    }
+  }
+  node {
+    input: "90"
+    output: "91"
+    op_type: "Relu"
+  }
+  node {
+    input: "91"
+    input: "block_3.block.6.weight"
+    input: "block_3.block.6.bias"
+    output: "92"
+    op_type: "Conv"
+    attribute {
+      name: "dilations"
+      ints: 1
+      ints: 1
+      type: INTS
+    }
+    attribute {
+      name: "group"
+      i: 1
+      type: INT
+    }
+    attribute {
+      name: "kernel_shape"
+      ints: 3
+      ints: 3
+      type: INTS
+    }
+    attribute {
+      name: "pads"
+      ints: 1
+      ints: 1
+      ints: 1
+      ints: 1
+      type: INTS
+    }
+    attribute {
+      name: "strides"
+      ints: 1
+      ints: 1
+      type: INTS
+    }
+  }
+  node {
+    input: "86"
+    input: "block_3.downsample.0.weight"
+    input: "block_3.downsample.0.bias"
+    input: "block_3.downsample.0.running_mean"
+    input: "block_3.downsample.0.running_var"
+    output: "93"
+    op_type: "BatchNormalization"
+    attribute {
+      name: "epsilon"
+      f: 9.999999747378752e-06
+      type: FLOAT
+    }
+    attribute {
+      name: "momentum"
+      f: 0.8999999761581421
+      type: FLOAT
+    }
+  }
+  node {
+    input: "93"
+    input: "block_3.downsample.1.weight"
+    input: "block_3.downsample.1.bias"
+    output: "94"
+    op_type: "Conv"
+    attribute {
+      name: "dilations"
+      ints: 1
+      ints: 1
+      type: INTS
+    }
+    attribute {
+      name: "group"
+      i: 1
+      type: INT
+    }
+    attribute {
+      name: "kernel_shape"
+      ints: 1
+      ints: 1
+      type: INTS
+    }
+    attribute {
+      name: "pads"
+      ints: 0
+      ints: 0
+      ints: 0
+      ints: 0
+      type: INTS
+    }
+    attribute {
+      name: "strides"
+      ints: 2
+      ints: 2
+      type: INTS
+    }
+  }
+  node {
+    input: "92"
+    input: "94"
+    output: "95"
+    op_type: "Add"
+  }
+  node {
+    input: "95"
+    output: "96"
+    op_type: "Pad"
+    attribute {
+      name: "mode"
+      s: "constant"
+      type: STRING
+    }
+    attribute {
+      name: "pads"
+      ints: 0
+      ints: 0
+      ints: 0
+      ints: 0
+      ints: 0
+      ints: 0
+      ints: 0
+      ints: 0
+      type: INTS
+    }
+    attribute {
+      name: "value"
+      f: 0.0
+      type: FLOAT
+    }
+  }
+  node {
+    input: "96"
+    output: "97"
+    op_type: "AveragePool"
+    attribute {
+      name: "ceil_mode"
+      i: 0
+      type: INT
+    }
+    attribute {
+      name: "kernel_shape"
+      ints: 6
+      ints: 6
+      type: INTS
+    }
+    attribute {
+      name: "pads"
+      ints: 0
+      ints: 0
+      ints: 0
+      ints: 0
+      type: INTS
+    }
+    attribute {
+      name: "strides"
+      ints: 6
+      ints: 6
+      type: INTS
+    }
+  }
+  node {
+    output: "98"
+    op_type: "Constant"
+    attribute {
+      name: "value"
+      t {
+        data_type: 7
+        raw_data: "\000\000\000\000\000\000\000\000"
+      }
+      type: TENSOR
+    }
+  }
+  node {
+    input: "97"
+    output: "99"
+    op_type: "Shape"
+  }
+  node {
+    input: "99"
+    input: "98"
+    output: "100"
+    op_type: "Gather"
+    attribute {
+      name: "axis"
+      i: 0
+      type: INT
+    }
+  }
+  node {
+    output: "101"
+    op_type: "Constant"
+    attribute {
+      name: "value"
+      t {
+        data_type: 7
+        raw_data: "\377\377\377\377\377\377\377\377"
+      }
+      type: TENSOR
+    }
+  }
+  node {
+    input: "100"
+    output: "102"
+    op_type: "Unsqueeze"
+    attribute {
+      name: "axes"
+      ints: 0
+      type: INTS
+    }
+  }
+  node {
+    input: "101"
+    output: "103"
+    op_type: "Unsqueeze"
+    attribute {
+      name: "axes"
+      ints: 0
+      type: INTS
+    }
+  }
+  node {
+    input: "102"
+    input: "103"
+    output: "104"
+    op_type: "Concat"
+    attribute {
+      name: "axis"
+      i: 0
+      type: INT
+    }
+  }
+  node {
+    input: "97"
+    input: "104"
+    output: "105"
+    op_type: "Reshape"
+  }
+  node {
+    input: "105"
+    input: "last_lin.weight"
+    input: "last_lin.bias"
+    output: "106"
+    op_type: "Gemm"
+    attribute {
+      name: "alpha"
+      f: 1.0
+      type: FLOAT
+    }
+    attribute {
+      name: "beta"
+      f: 1.0
+      type: FLOAT
+    }
+    attribute {
+      name: "transB"
+      i: 1
+      type: INT
+    }
+  }
+  initializer {
+    dims: 32
+    data_type: 1
+    name: "block_1.block.0.bias"
+    raw_data: "\200D\306\273^\270\254;\035\214\355\273\331\326u\273\177\272/<\031g\304;v\216@\272\034_\237\273\302#\354:[)\225:O\301\t;Ra\2409\316\021\340\272\302k\230\273*5&\274\276`\334:\235\'l\273K\274`:\354\022\2218\221(\332\273\337%\226<:\231\277\272\245\270[\273\232\026\234\273#\3212\274\267\270\334\273\225\214;\272\215\002\360;Az\272\273rp\t<\210\004\273\272###:"
+  }
+  initializer {
+    data_type: 7
+    name: "block_1.block.0.num_batches_tracked"
+    raw_data: "\204\003\000\000\000\000\000\000"
+  }
+  initializer {
+    dims: 32
+    data_type: 1
+    name: "block_1.block.0.running_mean"
+    raw_data: "x\214:\276\276Z\245>IS\305=#\312\266=\277\245\233\276p.8<\2257P\276\030\343E\276\036\027\243\276\303\253\217\275\325\316\025?\035q\027>4S0\277\274!\224>\306\020\210=\241\266\004>Wg\214<\373\241\221>\203\306\271>\364\233s\276\244\365\017?R\204\275=(\327N\275\314\254\000\277\204\365\343\274\260\302\325=Li\363\275\316o\016\277\017z\005>\017A\263\275&\337\364\275\360 \241\275"
+  }
+  initializer {
+    dims: 32
+    data_type: 1
+    name: "block_1.block.0.running_var"
+    raw_data: "g\374\313;\3063\376<\344?\032;\256\330\313;E\210s<:\t\206;\334\"U:\262\302-<\n\351B=\204\313\262:r\200C=\220%\354;\203|\034>\353\355\254<\231B\343:a_\241;\256\037\003<\277e\235<y U<\177\332q<\272\353g=\303~\315:\177\222\211;\"\240\331<=f\004<14G;mnE;%\005\230=\366+\244<\326\301F;\361\253\037;^\235\036;"
+  }
+  initializer {
+    dims: 32
+    data_type: 1
+    name: "block_1.block.0.weight"
+    raw_data: "7\223\200?aR\200?\244<\200?\261\320\177?D\021\200?\374\240\200?\222\207\200?\357&\200?\340d\200?\312\262~?\033~\177?\315\263\177?\204n\177?\264\243~?#\312\177?U\033\201?\314g\177?+n\177?\036\306\200?/\002\177?\022\301\200?\302+\200?\002\000}?\320\361~?\233\262\177?\276\306\177?`Z\200?q6\200?\276`\177?dF\177?\212j\200?G\357\200?"
+  }
+  initializer {
+    dims: 32
+    data_type: 1
+    name: "block_1.block.2.bias"
+    raw_data: "\366J\247\274:/\247<.\265(=pW\315<\243\301\323:u\0053\275Xb\010\275\224\017V=\353\017\366\274\275P@\275\236\337\207\274r\313;\275\351\350\305\274\237\333\013=\315=\000==\236\006\275\373\n-\275\332\nV\273\344\236\202\274}Z\345<\366\n4=\207\037\245\2745ma\275\302\214C\2753\323E\275\350T%=w%\225\274\007\252n<&\226\224<\321\"l\275\363\303\002\275\346\311&="
+  }
+  initializer {
+      dims: 32
+      dims: 32
+      dims: 3
+      dims: 3
+      data_type: 1
+      name: "block_1.block.2.weight"
+  }
+  initializer {
+    dims: 32
+    data_type: 1
+    name: "block_1.block.3.bias"
+    raw_data: "X\277\205\27426A\274,\214b\274\033\323\034\274\322\230\216\274\231q7\274Q4\364\273I\230n\274\352\017\016\274\361HV\274on\206\274\310\003\367\273\370.+\274\207\021+\274\010\377 \274Q\2665\27480\211\274B\320?\274\203\272\027\274?\353_\274\3722\003\274\214\3055\274\346\274?\274\"gr\274\314DX\274\310\001!\274@\264Y\274\376e=\274\3737U\274H\370T\273\333\rF\274P#<\274"
+  }
+  initializer {
+    data_type: 7
+    name: "block_1.block.3.num_batches_tracked"
+    raw_data: "\204\003\000\000\000\000\000\000"
+  }
+  initializer {
+    dims: 32
+    data_type: 1
+    name: "block_1.block.3.running_mean"
+    raw_data: "\r\323\200\275\231\036\240<\260\025.>Qz\322=\317\026\327\274f\034<\273\003\034h=d\2303=\n;\375<\327\211\263\276\370#\210<\331s\037\274\026\351\032\276U\232\356=\373\016,>\276K\277\275\335\320\316=\276>\211\276\\\336}\275\246\252\253<5\331\312\275~\347\355\275\354\361\230\274\365\177\302\275.\205\205\276\317\320\260;\254\021\233\276:\244I\2762\246b=\233\343g\276<F7\276\332\333\331<"
+  }
+  initializer {
+    dims: 32
+    data_type: 1
+    name: "block_1.block.3.running_var"
+    raw_data: "\212\370\306=r\247\205=$\025\275=\263\025_=\310Q\236=r\335v=\342\256\277=\313\303\212=\242/9=\213\371\300=\266\'\213=p\375\234=v\306\263=\010\352\205=~/\222=#\323\303=0\211\335=\263\201\332=\231\303\263=\273\032\221=n?\342=\355\021\240=1\2670=\245\350w=\277P\304=L\241\217=0\357\322={4\267=\317\217\252=w\210\251=\200\220\237=\234\263\241="
+  }
+  initializer {
+    dims: 32
+    data_type: 1
+    name: "block_1.block.3.weight"
+    raw_data: "\221\263}?\3060}?\301_}?\344\n~?\265|~?P\372}?\002p~?^\372~?\246O\200?\257h|?0u}?%\212}?\032\265}?\337>}?\3308}?l\225|?xs|?J\270}?\017;|?\031\206}?\234>~?2\010}?O\337|?\273\002}?\256G}?@c}?l[|?\201\211}?\364L|?\363{\200?\315\342|?\302\366|?"
+  }
+  initializer {
+    dims: 32
+    data_type: 1
+    name: "block_1.block.6.bias"
+    raw_data: "\314 *\275\304\007\022\275\314\242O\274\351\r\251\273\277v\025=9h\026=\273Jb=J}\024<T\rp\275\260\310\026\275\307p\r=M\205\022\275\253T\300<\273\317#<N\203\331<v\330Q<\0055\345;Z+H\275\356>\200<\273\t-\275Y,c\275\255\3501\2757\365\245<4\237C=\030\357`;\356\220d\274^1\362\274z\013\206\274\365\307%\275\346\316C\275\353+\300<C;\352\274"
+  }
+  initializer {
+      dims: 32
+      dims: 32
+      dims: 3
+      dims: 3
+      data_type: 1
+      name: "block_1.block.6.weight"
+  }
+  initializer {
+    dims: 32
+    data_type: 1
+    name: "block_1.downsample.0.bias"
+    raw_data: "E\220\242\266\330\267\214\266\300\216!\266\263_+\266\262\037_\264`\362\325\265\336\004q5\254\272\2762SM\0366t3\3126\365\'\007\266\025Vf\264E\201\203\266\234\217\031\266P,\2215\245F\231\265\"\341\375\264fG\r6\"p\0246\357\327\261\265SA\230\266\206\037\3655A7\237\266\222 \3374\206\264u\266s\347{6,L]\265h\206\t6\246\031\331\265\251\033\222\266\201k!\266o\257\022\266"
+  }
+  initializer {
+    data_type: 7
+    name: "block_1.downsample.0.num_batches_tracked"
+    raw_data: "\204\003\000\000\000\000\000\000"
+  }
+  initializer {
+    dims: 32
+    data_type: 1
+    name: "block_1.downsample.0.running_mean"
+    raw_data: "x\214:\276\276Z\245>IS\305=#\312\266=\277\245\233\276p.8<\2257P\276\030\343E\276\036\027\243\276\303\253\217\275\325\316\025?\035q\027>4S0\277\274!\224>\306\020\210=\241\266\004>Wg\214<\373\241\221>\203\306\271>\364\233s\276\244\365\017?R\204\275=(\327N\275\314\254\000\277\204\365\343\274\260\302\325=Li\363\275\316o\016\277\017z\005>\017A\263\275&\337\364\275\360 \241\275"
+  }
+  initializer {
+    dims: 32
+    data_type: 1
+    name: "block_1.downsample.0.running_var"
+    raw_data: "g\374\313;\3063\376<\344?\032;\256\330\313;E\210s<:\t\206;\334\"U:\262\302-<\n\351B=\204\313\262:r\200C=\220%\354;\203|\034>\353\355\254<\231B\343:a_\241;\256\037\003<\277e\235<y U<\177\332q<\272\353g=\303~\315:\177\222\211;\"\240\331<=f\004<14G;mnE;%\005\230=\366+\244<\326\301F;\361\253\037;^\235\036;"
+  }
+  initializer {
+    dims: 32
+    data_type: 1
+    name: "block_1.downsample.0.weight"
+    raw_data: "\3001\201?y^\201?\252`\202?k\203\200?l\223~?\374 \200?Y\274\200?\256\347\200?Cl\200?T\232\201?\351&\200?y5\202?S\227\200?\314G\177?\346Q\201?\2611\201?\265\202\177?\r\303~?V\326\201?/\317\201?\336\217\200?\370\355\200?#\215\200?\245\250\200?\030\367\177?^\267\201?\'\005\202?\226\373\177?\206\272\200?\336\342\201?\270\024\202?\007\311\200?"
+  }
+  initializer {
+    dims: 32
+    data_type: 1
+    name: "block_1.downsample.1.bias"
+    raw_data: "eX\022\276+\204\223\275\013\327\237\275\373\240\211\2750\3649\275Ph\r=\264i\277\274\260\021\312=U\250\177\274-\013\030>\212\222s<\217\0260\276K\003\315\274\264\202\307\275\255\333r<\032\276\263\275\215\216\225<\252\361:\275\224\006U\275\025q\025=&}\014\276g&k\275\335\306\247<\005NA=CS\212\27505\241;\033a&\276\237\246\036\276\312\004\245\275\256,\366<\355\346\333<\343\2377\275"
+  }
+  initializer {
+      dims: 32
+      dims: 32
+      dims: 1
+      dims: 1
+      data_type: 1
+      name: "block_1.downsample.1.weight"
+  }
+  initializer {
+    dims: 32
+    data_type: 1
+    name: "block_2.block.0.bias"
+    raw_data: "\005\271\320:\270\003\t: $\214\272\003gL\273\260@P<\311\244\367;G~\333\273k\342/\273`Bb<\036\014\020\272\211\021\003<\002u%\273{}+<\22042\2748m\231<Qf\006<R\274\254\273\322%\215<%k\023\273/@\005\273\302\237\214\272\t\"l;\201~\200\273\232\013!\274\253\206\013\273h\311|<]L*;\244\333\\;\"$\343\272\034\342\243;\262s\224\273\310\237\371\273"
+  }
+  initializer {
+    data_type: 7
+    name: "block_2.block.0.num_batches_tracked"
+    raw_data: "\204\003\000\000\000\000\000\000"
+  }
+  initializer {
+    dims: 32
+    data_type: 1
+    name: "block_2.block.0.running_mean"
+    raw_data: "\220 \016\277(\211\033=\2712\324\271A+\215\276Dnq>\200%.>\306qY>\313\030A>_\242\246\275x\353!>,\033\236>ktY\276\373\305\337\276\313\257F=\346\331\323>\313\036d\276\337B*\276\2756h>\350Z\262\276\231\3267\2764\337\020\277\033\375\212\275d\377\036\275O\221\255>Kk\207\276\256\301\n>4\007\233\275\302\277\205\276\216\317\326=\376\002\037\276\265\225\261\274i{\375\275"
+  }
+  initializer {
+    dims: 32
+    data_type: 1
+    name: "block_2.block.0.running_var"
+    raw_data: "E\032L?N`\271>ym\214?([\006?\376]A?~6\215>I\370\332>\035f\242?\307\r0?\002C\337?F\324\262?\025@\003?\302P\236?\325g:?wo4?kZ\007?I\0010?\253\\\023?\267\244+?R\246*?\336\362\026?\373{r?B\022s?\277\335\027?\032=,?\246\207z?\232\202\213?\324\222\026?@\265K?\331m(?M\371a?\327\345\025?"
+  }
+  initializer {
+    dims: 32
+    data_type: 1
+    name: "block_2.block.0.weight"
+    raw_data: "K\275}?6\215~?\025\230\177?XO}?~\220\201?g\373\177?\031<\177?\241T\177?\264#\202?\205\212\200?F\245\200?n \177?\214v\200?\007\201~?G\365\200?\003\272\200?\t\303\200?\017\314\201?Z\254~?\233J~?\026_~?\316\025\201?\326\352~?\005+z?\277x\177?\367\311\201?\356;\177?2\267\177?W\033~?\344\306\201?|\214}?\234\270}?"
+  }
+  initializer {
+      dims: 64
+      data_type: 1
+      name: "block_2.block.2.bias"
+  }
+  initializer {
+      dims: 64
+      dims: 32
+      dims: 3
+      dims: 3
+      data_type: 1
+      name: "block_2.block.2.weight"
+  }
+  initializer {
+      dims: 64
+      data_type: 1
+      name: "block_2.block.3.bias"
+  }
+  initializer {
+    data_type: 7
+    name: "block_2.block.3.num_batches_tracked"
+    raw_data: "\204\003\000\000\000\000\000\000"
+  }
+  initializer {
+      dims: 64
+      data_type: 1
+      name: "block_2.block.3.running_mean"
+  }
+  initializer {
+      dims: 64
+      data_type: 1
+      name: "block_2.block.3.running_var"
+  }
+  initializer {
+      dims: 64
+      data_type: 1
+      name: "block_2.block.3.weight"
+  }
+  initializer {
+      dims: 64
+      data_type: 1
+      name: "block_2.block.6.bias"
+  }
+  initializer {
+      dims: 64
+      dims: 64
+      dims: 3
+      dims: 3
+      data_type: 1
+      name: "block_2.block.6.weight"
+  }
+  initializer {
+    dims: 32
+    data_type: 1
+    name: "block_2.downsample.0.bias"
+    raw_data: "\357\341Q\265\324\270s6\'\271b\264\321\263\2415\321\200\2026\220&\\4\006`Q5K\035o5?\345\3406\357\301\3354F\217\2345I\224#6\377\373\024\266\331\377\2145G\3069\266\231,\3176`\035\2116Y\024a5\251\305\200\266F\237f\266\001\212\3655\332\333\2556{\370z\264\353|W\2660\260\217\266\335E\0054rcb\265\300J\3722(\353\266\264}Jg\266\325X\2105(\207\2435"
+  }
+  initializer {
+    data_type: 7
+    name: "block_2.downsample.0.num_batches_tracked"
+    raw_data: "\204\003\000\000\000\000\000\000"
+  }
+  initializer {
+    dims: 32
+    data_type: 1
+    name: "block_2.downsample.0.running_mean"
+    raw_data: "\220 \016\277(\211\033=\2712\324\271A+\215\276Dnq>\200%.>\306qY>\313\030A>_\242\246\275x\353!>,\033\236>ktY\276\373\305\337\276\313\257F=\346\331\323>\313\036d\276\337B*\276\2756h>\350Z\262\276\231\3267\2764\337\020\277\033\375\212\275d\377\036\275O\221\255>Kk\207\276\256\301\n>4\007\233\275\302\277\205\276\216\317\326=\376\002\037\276\265\225\261\274i{\375\275"
+  }
+  initializer {
+    dims: 32
+    data_type: 1
+    name: "block_2.downsample.0.running_var"
+    raw_data: "E\032L?N`\271>ym\214?([\006?\376]A?~6\215>I\370\332>\035f\242?\307\r0?\002C\337?F\324\262?\025@\003?\302P\236?\325g:?wo4?kZ\007?I\0010?\253\\\023?\267\244+?R\246*?\336\362\026?\373{r?B\022s?\277\335\027?\032=,?\246\207z?\232\202\213?\324\222\026?@\265K?\331m(?M\371a?\327\345\025?"
+  }
+  initializer {
+    dims: 32
+    data_type: 1
+    name: "block_2.downsample.0.weight"
+    raw_data: "D\024\201?\3322\201?mM~?\320\365\177?\000R\201?\024\320{?(\354\177?)\365\200?\231\221\200?C\030\201?\030[\177?\017\265\177?\304\355\200?R\355~?\010c\200?}\271\200?\"U\201?S\220\200?\263\323}?\217B\177?{\344~?\267A\200?\322\316\177?\344e\200?o\364\200?Q \200?q0\201?b\333\200?P\225\200?:\"\200?\225\305~?\037\267~?"
+  }
+  initializer {
+      dims: 64
+      data_type: 1
+      name: "block_2.downsample.1.bias"
+  }
+  initializer {
+      dims: 64
+      dims: 32
+      dims: 1
+      dims: 1
+      data_type: 1
+      name: "block_2.downsample.1.weight"
+  }
+  initializer {
+      dims: 64
+      data_type: 1
+      name: "block_3.block.0.bias"
+  }
+  initializer {
+    data_type: 7
+    name: "block_3.block.0.num_batches_tracked"
+    raw_data: "\204\003\000\000\000\000\000\000"
+  }
+  initializer {
+      dims: 64
+      data_type: 1
+      name: "block_3.block.0.running_mean"
+  }
+  initializer {
+      dims: 64
+      data_type: 1
+      name: "block_3.block.0.running_var"
+  }
+  initializer {
+      dims: 64
+      data_type: 1
+      name: "block_3.block.0.weight"
+  }
+  initializer {
+      dims: 128
+      data_type: 1
+      name: "block_3.block.2.bias"
+  }
+  initializer {
+      dims: 128
+      dims: 64
+      dims: 3
+      dims: 3
+      data_type: 1
+      name: "block_3.block.2.weight"
+  }
+  initializer {
+      dims: 128
+      data_type: 1
+      name: "block_3.block.3.bias"
+  }
+  initializer {
+    data_type: 7
+    name: "block_3.block.3.num_batches_tracked"
+    raw_data: "\204\003\000\000\000\000\000\000"
+  }
+  initializer {
+      dims: 128
+      data_type: 1
+      name: "block_3.block.3.running_mean"
+  }
+  initializer {
+      dims: 128
+      data_type: 1
+      name: "block_3.block.3.running_var"
+  }
+  initializer {
+      dims: 128
+      data_type: 1
+      name: "block_3.block.3.weight"
+  }
+  initializer {
+      dims: 128
+      data_type: 1
+      name: "block_3.block.6.bias"
+  }
+  initializer {
+      dims: 128
+      dims: 128
+      dims: 3
+      dims: 3
+      data_type: 1
+      name: "block_3.block.6.weight"
+  }
+  initializer {
+      dims: 64
+      data_type: 1
+      name: "block_3.downsample.0.bias"
+  }
+  initializer {
+    data_type: 7
+    name: "block_3.downsample.0.num_batches_tracked"
+    raw_data: "\204\003\000\000\000\000\000\000"
+  }
+  initializer {
+      dims: 64
+      data_type: 1
+      name: "block_3.downsample.0.running_mean"
+  }
+  initializer {
+      dims: 64
+      data_type: 1
+      name: "block_3.downsample.0.running_var"
+  }
+  initializer {
+      dims: 64
+      data_type: 1
+      name: "block_3.downsample.0.weight"
+  }
+  initializer {
+      dims: 128
+      data_type: 1
+      name: "block_3.downsample.1.bias"
+  }
+  initializer {
+      dims: 128
+      dims: 64
+      dims: 1
+      dims: 1
+      data_type: 1
+      name: "block_3.downsample.1.weight"
+  }
+  initializer {
+    dims: 32
+    data_type: 1
+    name: "first_conv.bias"
+    raw_data: "\022\224\317\275\332\006v\275\nHW=\270\301n\275a\361e\275\343\\\001>pOJ\276\306\353\347;\251\334#>O`g\273-M\346=\305\202\222=\205:&>\242\007(\273\207\030\247=4B\031>\343l\037\276*\265\215\273\013X1>\266\262\254<T\276$=\371\345\370=\245\243\023\276\226\365#\276p\204\355=Li\257=\360m\t\276_\337\251<p\0300\276\0244\207\275\006H\276\275\234\264\341\275"
+  }
+  initializer {
+      dims: 32
+      dims: 1
+      dims: 5
+      dims: 5
+      data_type: 1
+      name: "first_conv.weight"
+  }
+  initializer {
+    dims: 30
+    data_type: 1
+    name: "last_lin.bias"
+    raw_data: "E\241\243\275Qj\210\274\246\312\223=\220\245\230\275(+#\275Ii4\275\357%7=\203\264\230\274u\237K=\241\332\026\275\344vs\275M\353\033=\321BF:\"\000\221<a\234F=jT\247\275\222%X\275\342\360o=\2261\211\275\232\276\256\275\t\331\217\275\177\233F=\250\031Y=\t\334\016<i\314\211=\372\200\244\275\365\027\213\274\022\2556=\270$\315<\232\300\221\275"
+  }
+  initializer {
+      dims: 30
+      dims: 128
+      data_type: 1
+      name: "last_lin.weight"
+  }
+  input {
+    name: "input.1"
+    type {
+      tensor_type {
+        elem_type: 1
+        shape {
+          dim {
+            dim_value: 1
+          }
+          dim {
+            dim_value: 1
+          }
+          dim {
+            dim_value: 96
+          }
+          dim {
+            dim_value: 96
+          }
+        }
+      }
+    }
+  }
+  input {
+    name: "first_conv.weight"
+    type {
+      tensor_type {
+        elem_type: 1
+        shape {
+          dim {
+            dim_value: 32
+          }
+          dim {
+            dim_value: 1
+          }
+          dim {
+            dim_value: 5
+          }
+          dim {
+            dim_value: 5
+          }
+        }
+      }
+    }
+  }
+  input {
+    name: "first_conv.bias"
+    type {
+      tensor_type {
+        elem_type: 1
+        shape {
+          dim {
+            dim_value: 32
+          }
+        }
+      }
+    }
+  }
+  input {
+    name: "block_1.block.0.weight"
+    type {
+      tensor_type {
+        elem_type: 1
+        shape {
+          dim {
+            dim_value: 32
+          }
+        }
+      }
+    }
+  }
+  input {
+    name: "block_1.block.0.bias"
+    type {
+      tensor_type {
+        elem_type: 1
+        shape {
+          dim {
+            dim_value: 32
+          }
+        }
+      }
+    }
+  }
+  input {
+    name: "block_1.block.0.running_mean"
+    type {
+      tensor_type {
+        elem_type: 1
+        shape {
+          dim {
+            dim_value: 32
+          }
+        }
+      }
+    }
+  }
+  input {
+    name: "block_1.block.0.running_var"
+    type {
+      tensor_type {
+        elem_type: 1
+        shape {
+          dim {
+            dim_value: 32
+          }
+        }
+      }
+    }
+  }
+  input {
+    name: "block_1.block.0.num_batches_tracked"
+    type {
+      tensor_type {
+        elem_type: 7
+        shape {
+        }
+      }
+    }
+  }
+  input {
+    name: "block_1.block.2.weight"
+    type {
+      tensor_type {
+        elem_type: 1
+        shape {
+          dim {
+            dim_value: 32
+          }
+          dim {
+            dim_value: 32
+          }
+          dim {
+            dim_value: 3
+          }
+          dim {
+            dim_value: 3
+          }
+        }
+      }
+    }
+  }
+  input {
+    name: "block_1.block.2.bias"
+    type {
+      tensor_type {
+        elem_type: 1
+        shape {
+          dim {
+            dim_value: 32
+          }
+        }
+      }
+    }
+  }
+  input {
+    name: "block_1.block.3.weight"
+    type {
+      tensor_type {
+        elem_type: 1
+        shape {
+          dim {
+            dim_value: 32
+          }
+        }
+      }
+    }
+  }
+  input {
+    name: "block_1.block.3.bias"
+    type {
+      tensor_type {
+        elem_type: 1
+        shape {
+          dim {
+            dim_value: 32
+          }
+        }
+      }
+    }
+  }
+  input {
+    name: "block_1.block.3.running_mean"
+    type {
+      tensor_type {
+        elem_type: 1
+        shape {
+          dim {
+            dim_value: 32
+          }
+        }
+      }
+    }
+  }
+  input {
+    name: "block_1.block.3.running_var"
+    type {
+      tensor_type {
+        elem_type: 1
+        shape {
+          dim {
+            dim_value: 32
+          }
+        }
+      }
+    }
+  }
+  input {
+    name: "block_1.block.3.num_batches_tracked"
+    type {
+      tensor_type {
+        elem_type: 7
+        shape {
+        }
+      }
+    }
+  }
+  input {
+    name: "block_1.block.6.weight"
+    type {
+      tensor_type {
+        elem_type: 1
+        shape {
+          dim {
+            dim_value: 32
+          }
+          dim {
+            dim_value: 32
+          }
+          dim {
+            dim_value: 3
+          }
+          dim {
+            dim_value: 3
+          }
+        }
+      }
+    }
+  }
+  input {
+    name: "block_1.block.6.bias"
+    type {
+      tensor_type {
+        elem_type: 1
+        shape {
+          dim {
+            dim_value: 32
+          }
+        }
+      }
+    }
+  }
+  input {
+    name: "block_1.downsample.0.weight"
+    type {
+      tensor_type {
+        elem_type: 1
+        shape {
+          dim {
+            dim_value: 32
+          }
+        }
+      }
+    }
+  }
+  input {
+    name: "block_1.downsample.0.bias"
+    type {
+      tensor_type {
+        elem_type: 1
+        shape {
+          dim {
+            dim_value: 32
+          }
+        }
+      }
+    }
+  }
+  input {
+    name: "block_1.downsample.0.running_mean"
+    type {
+      tensor_type {
+        elem_type: 1
+        shape {
+          dim {
+            dim_value: 32
+          }
+        }
+      }
+    }
+  }
+  input {
+    name: "block_1.downsample.0.running_var"
+    type {
+      tensor_type {
+        elem_type: 1
+        shape {
+          dim {
+            dim_value: 32
+          }
+        }
+      }
+    }
+  }
+  input {
+    name: "block_1.downsample.0.num_batches_tracked"
+    type {
+      tensor_type {
+        elem_type: 7
+        shape {
+        }
+      }
+    }
+  }
+  input {
+    name: "block_1.downsample.1.weight"
+    type {
+      tensor_type {
+        elem_type: 1
+        shape {
+          dim {
+            dim_value: 32
+          }
+          dim {
+            dim_value: 32
+          }
+          dim {
+            dim_value: 1
+          }
+          dim {
+            dim_value: 1
+          }
+        }
+      }
+    }
+  }
+  input {
+    name: "block_1.downsample.1.bias"
+    type {
+      tensor_type {
+        elem_type: 1
+        shape {
+          dim {
+            dim_value: 32
+          }
+        }
+      }
+    }
+  }
+  input {
+    name: "block_2.block.0.weight"
+    type {
+      tensor_type {
+        elem_type: 1
+        shape {
+          dim {
+            dim_value: 32
+          }
+        }
+      }
+    }
+  }
+  input {
+    name: "block_2.block.0.bias"
+    type {
+      tensor_type {
+        elem_type: 1
+        shape {
+          dim {
+            dim_value: 32
+          }
+        }
+      }
+    }
+  }
+  input {
+    name: "block_2.block.0.running_mean"
+    type {
+      tensor_type {
+        elem_type: 1
+        shape {
+          dim {
+            dim_value: 32
+          }
+        }
+      }
+    }
+  }
+  input {
+    name: "block_2.block.0.running_var"
+    type {
+      tensor_type {
+        elem_type: 1
+        shape {
+          dim {
+            dim_value: 32
+          }
+        }
+      }
+    }
+  }
+  input {
+    name: "block_2.block.0.num_batches_tracked"
+    type {
+      tensor_type {
+        elem_type: 7
+        shape {
+        }
+      }
+    }
+  }
+  input {
+    name: "block_2.block.2.weight"
+    type {
+      tensor_type {
+        elem_type: 1
+        shape {
+          dim {
+            dim_value: 64
+          }
+          dim {
+            dim_value: 32
+          }
+          dim {
+            dim_value: 3
+          }
+          dim {
+            dim_value: 3
+          }
+        }
+      }
+    }
+  }
+  input {
+    name: "block_2.block.2.bias"
+    type {
+      tensor_type {
+        elem_type: 1
+        shape {
+          dim {
+            dim_value: 64
+          }
+        }
+      }
+    }
+  }
+  input {
+    name: "block_2.block.3.weight"
+    type {
+      tensor_type {
+        elem_type: 1
+        shape {
+          dim {
+            dim_value: 64
+          }
+        }
+      }
+    }
+  }
+  input {
+    name: "block_2.block.3.bias"
+    type {
+      tensor_type {
+        elem_type: 1
+        shape {
+          dim {
+            dim_value: 64
+          }
+        }
+      }
+    }
+  }
+  input {
+    name: "block_2.block.3.running_mean"
+    type {
+      tensor_type {
+        elem_type: 1
+        shape {
+          dim {
+            dim_value: 64
+          }
+        }
+      }
+    }
+  }
+  input {
+    name: "block_2.block.3.running_var"
+    type {
+      tensor_type {
+        elem_type: 1
+        shape {
+          dim {
+            dim_value: 64
+          }
+        }
+      }
+    }
+  }
+  input {
+    name: "block_2.block.3.num_batches_tracked"
+    type {
+      tensor_type {
+        elem_type: 7
+        shape {
+        }
+      }
+    }
+  }
+  input {
+    name: "block_2.block.6.weight"
+    type {
+      tensor_type {
+        elem_type: 1
+        shape {
+          dim {
+            dim_value: 64
+          }
+          dim {
+            dim_value: 64
+          }
+          dim {
+            dim_value: 3
+          }
+          dim {
+            dim_value: 3
+          }
+        }
+      }
+    }
+  }
+  input {
+    name: "block_2.block.6.bias"
+    type {
+      tensor_type {
+        elem_type: 1
+        shape {
+          dim {
+            dim_value: 64
+          }
+        }
+      }
+    }
+  }
+  input {
+    name: "block_2.downsample.0.weight"
+    type {
+      tensor_type {
+        elem_type: 1
+        shape {
+          dim {
+            dim_value: 32
+          }
+        }
+      }
+    }
+  }
+  input {
+    name: "block_2.downsample.0.bias"
+    type {
+      tensor_type {
+        elem_type: 1
+        shape {
+          dim {
+            dim_value: 32
+          }
+        }
+      }
+    }
+  }
+  input {
+    name: "block_2.downsample.0.running_mean"
+    type {
+      tensor_type {
+        elem_type: 1
+        shape {
+          dim {
+            dim_value: 32
+          }
+        }
+      }
+    }
+  }
+  input {
+    name: "block_2.downsample.0.running_var"
+    type {
+      tensor_type {
+        elem_type: 1
+        shape {
+          dim {
+            dim_value: 32
+          }
+        }
+      }
+    }
+  }
+  input {
+    name: "block_2.downsample.0.num_batches_tracked"
+    type {
+      tensor_type {
+        elem_type: 7
+        shape {
+        }
+      }
+    }
+  }
+  input {
+    name: "block_2.downsample.1.weight"
+    type {
+      tensor_type {
+        elem_type: 1
+        shape {
+          dim {
+            dim_value: 64
+          }
+          dim {
+            dim_value: 32
+          }
+          dim {
+            dim_value: 1
+          }
+          dim {
+            dim_value: 1
+          }
+        }
+      }
+    }
+  }
+  input {
+    name: "block_2.downsample.1.bias"
+    type {
+      tensor_type {
+        elem_type: 1
+        shape {
+          dim {
+            dim_value: 64
+          }
+        }
+      }
+    }
+  }
+  input {
+    name: "block_3.block.0.weight"
+    type {
+      tensor_type {
+        elem_type: 1
+        shape {
+          dim {
+            dim_value: 64
+          }
+        }
+      }
+    }
+  }
+  input {
+    name: "block_3.block.0.bias"
+    type {
+      tensor_type {
+        elem_type: 1
+        shape {
+          dim {
+            dim_value: 64
+          }
+        }
+      }
+    }
+  }
+  input {
+    name: "block_3.block.0.running_mean"
+    type {
+      tensor_type {
+        elem_type: 1
+        shape {
+          dim {
+            dim_value: 64
+          }
+        }
+      }
+    }
+  }
+  input {
+    name: "block_3.block.0.running_var"
+    type {
+      tensor_type {
+        elem_type: 1
+        shape {
+          dim {
+            dim_value: 64
+          }
+        }
+      }
+    }
+  }
+  input {
+    name: "block_3.block.0.num_batches_tracked"
+    type {
+      tensor_type {
+        elem_type: 7
+        shape {
+        }
+      }
+    }
+  }
+  input {
+    name: "block_3.block.2.weight"
+    type {
+      tensor_type {
+        elem_type: 1
+        shape {
+          dim {
+            dim_value: 128
+          }
+          dim {
+            dim_value: 64
+          }
+          dim {
+            dim_value: 3
+          }
+          dim {
+            dim_value: 3
+          }
+        }
+      }
+    }
+  }
+  input {
+    name: "block_3.block.2.bias"
+    type {
+      tensor_type {
+        elem_type: 1
+        shape {
+          dim {
+            dim_value: 128
+          }
+        }
+      }
+    }
+  }
+  input {
+    name: "block_3.block.3.weight"
+    type {
+      tensor_type {
+        elem_type: 1
+        shape {
+          dim {
+            dim_value: 128
+          }
+        }
+      }
+    }
+  }
+  input {
+    name: "block_3.block.3.bias"
+    type {
+      tensor_type {
+        elem_type: 1
+        shape {
+          dim {
+            dim_value: 128
+          }
+        }
+      }
+    }
+  }
+  input {
+    name: "block_3.block.3.running_mean"
+    type {
+      tensor_type {
+        elem_type: 1
+        shape {
+          dim {
+            dim_value: 128
+          }
+        }
+      }
+    }
+  }
+  input {
+    name: "block_3.block.3.running_var"
+    type {
+      tensor_type {
+        elem_type: 1
+        shape {
+          dim {
+            dim_value: 128
+          }
+        }
+      }
+    }
+  }
+  input {
+    name: "block_3.block.3.num_batches_tracked"
+    type {
+      tensor_type {
+        elem_type: 7
+        shape {
+        }
+      }
+    }
+  }
+  input {
+    name: "block_3.block.6.weight"
+    type {
+      tensor_type {
+        elem_type: 1
+        shape {
+          dim {
+            dim_value: 128
+          }
+          dim {
+            dim_value: 128
+          }
+          dim {
+            dim_value: 3
+          }
+          dim {
+            dim_value: 3
+          }
+        }
+      }
+    }
+  }
+  input {
+    name: "block_3.block.6.bias"
+    type {
+      tensor_type {
+        elem_type: 1
+        shape {
+          dim {
+            dim_value: 128
+          }
+        }
+      }
+    }
+  }
+  input {
+    name: "block_3.downsample.0.weight"
+    type {
+      tensor_type {
+        elem_type: 1
+        shape {
+          dim {
+            dim_value: 64
+          }
+        }
+      }
+    }
+  }
+  input {
+    name: "block_3.downsample.0.bias"
+    type {
+      tensor_type {
+        elem_type: 1
+        shape {
+          dim {
+            dim_value: 64
+          }
+        }
+      }
+    }
+  }
+  input {
+    name: "block_3.downsample.0.running_mean"
+    type {
+      tensor_type {
+        elem_type: 1
+        shape {
+          dim {
+            dim_value: 64
+          }
+        }
+      }
+    }
+  }
+  input {
+    name: "block_3.downsample.0.running_var"
+    type {
+      tensor_type {
+        elem_type: 1
+        shape {
+          dim {
+            dim_value: 64
+          }
+        }
+      }
+    }
+  }
+  input {
+    name: "block_3.downsample.0.num_batches_tracked"
+    type {
+      tensor_type {
+        elem_type: 7
+        shape {
+        }
+      }
+    }
+  }
+  input {
+    name: "block_3.downsample.1.weight"
+    type {
+      tensor_type {
+        elem_type: 1
+        shape {
+          dim {
+            dim_value: 128
+          }
+          dim {
+            dim_value: 64
+          }
+          dim {
+            dim_value: 1
+          }
+          dim {
+            dim_value: 1
+          }
+        }
+      }
+    }
+  }
+  input {
+    name: "block_3.downsample.1.bias"
+    type {
+      tensor_type {
+        elem_type: 1
+        shape {
+          dim {
+            dim_value: 128
+          }
+        }
+      }
+    }
+  }
+  input {
+    name: "last_lin.weight"
+    type {
+      tensor_type {
+        elem_type: 1
+        shape {
+          dim {
+            dim_value: 30
+          }
+          dim {
+            dim_value: 128
+          }
+        }
+      }
+    }
+  }
+  input {
+    name: "last_lin.bias"
+    type {
+      tensor_type {
+        elem_type: 1
+        shape {
+          dim {
+            dim_value: 30
+          }
+        }
+      }
+    }
+  }
+  output {
+    name: "106"
+    type {
+      tensor_type {
+        elem_type: 1
+        shape {
+          dim {
+            dim_value: 1
+          }
+          dim {
+            dim_value: 30
+          }
+        }
+      }
+    }
+  }
+}
+opset_import {
+  version: 10
+}
