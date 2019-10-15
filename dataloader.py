@@ -88,7 +88,7 @@ class DataLoader:
 # for test
 if __name__ == "__main__":
     shuffle = True
-    test = False
+    test = True
     nb_batch = 32
     train_dataLoader = DataLoader(nb_batch, test=test)
     for epoch in range(2):
