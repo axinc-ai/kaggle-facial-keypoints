@@ -23,10 +23,10 @@ python3 train.py --load
 ```
 
 ## TODO
-- [] Cross Validation
-- [] TensorboardX
-- [] log system
-- [] Improve usability
+- [ ] Cross Validation
+- [ ] TensorboardX
+- [ ] log system
+- [ ] Improve usability
 
 ## Licence
 [MIT](https://)
