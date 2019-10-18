@@ -22,7 +22,7 @@ python3 train.py --load
 ```
 
 ## Resutls
-Score : 3.96974
+Score : 3.50467
 
 ## TODO
 - [ ] Cross Validation (looks my model tends to overfit)
