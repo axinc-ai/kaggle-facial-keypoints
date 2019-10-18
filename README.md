@@ -7,7 +7,7 @@ The objective of this task is to predict keypoint positions on face images. Data
 
 ## Demo
 This is an example of my results.
-[result_image](None)
+[result_image]()
 
 ## Requirements
 As a Deep Learning framework, I used [Pytorch](https://pytorch.org) version 1.3.
@@ -29,7 +29,7 @@ python3 train.py --load
 - [ ] Improve usability
 
 ## Licence
-[MIT](https://)
+[MIT]()
 
 ## Author
 [sngyo](https://github.com/sngyo)
