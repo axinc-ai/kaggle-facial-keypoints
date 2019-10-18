@@ -9,7 +9,6 @@ import sklearn.utils
 FTRAIN = 'data/training.csv'
 FTEST = 'data/test.csv'
 
-# TODO make a batch ? load all images on memory once ?
 # TODO multithreading ? (cf. heritates Thread, Consumer-Producer)
 # TODO how to use this class -> comments with example
 # TODO cross_validation ? (in this case, shuffle feature would be difficult)
@@ -23,7 +22,7 @@ class DataLoader:
         self.test = test
         self.X, self.y = self.load()
         self.nb_file = self.X.size(0)
-        self.next = True  # when true, there remains the unreaded datas.  # TODO maybe modify?
+        self.next = True  # when true, there remains the unreaded datas.
 
     def load(self, cols=None):
         """
@@ -33,7 +32,6 @@ class DataLoader:
         """
 
         fname = FTEST if self.test else FTRAIN
-        print(fname)  # TODO remove this line
         df = read_csv(os.path.expanduser(fname))
 
         # transform pixel values which are separated by "space" to a numpy array
@@ -85,7 +83,7 @@ class DataLoader:
             self.X, self.y = self.X[:, idx], self.y[idx]
 
 
-# for test
+# for debug
 if __name__ == "__main__":
     shuffle = True
     test = True

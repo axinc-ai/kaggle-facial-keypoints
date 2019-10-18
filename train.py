@@ -53,7 +53,6 @@ print(model)
 
 def training():
     train_data_loader = dataloader.DataLoader(BATCH_SIZE, test=False)
-    nb_train_imgs = train_data_loader.nb_file
     test_data_loader = dataloader.DataLoader(BATCH_SIZE, test=True)
 
     if loading:

@@ -21,11 +21,16 @@ If you want to use my pretrained model,
 python3 train.py --load
 ```
 
+## Resutls
+Score : 3.96974
+
 ## TODO
 - [ ] Cross Validation (looks my model tends to overfit)
 - [ ] TensorboardX
 - [ ] log system
 - [ ] Improve usability
+- [ ] Refactoring generate CSV for submitting the results
+- [ ] Add comments to the functions
 
 ## Licence
 [MIT](https://github.com/axinc-ai/kaggle-facial-keypoints/blob/master/LICENSE.txt)
