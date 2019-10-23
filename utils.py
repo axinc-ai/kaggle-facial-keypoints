@@ -33,24 +33,6 @@ def generate_csv(output, filepath='data/IdLookupTable.csv'):
     rowid = pd.Series(rowid, name='RowId')
     loc = pd.Series(preded, name='Location')
     submission = pd.concat([rowid, loc * 48 + 48], axis=1)
-    submission.to_csv('test.csv', index=False)
+    submission.to_csv('submissions.csv', index=False)
 
 
-# debug generate_csv
-if __name__ == "__main__":
-    try:
-        model = torch.load("save_100epoch.pt", map_location={"cpu": "cuda:0"})
-        # optimizer = torch.optim.Adam(model.parameters(), 1e-04)
-        # optimizer.load_state_dict(model.info_dict['optimizer'])
-        print("Success loading model")
-    except IOError:
-        print("Couldn't find model")
-        sys.exit(0)
-
-    test_data_loader = dataloader.DataLoader(1783, test=True)
-    model.eval()
-    with torch.no_grad():
-        X, _ = test_data_loader.get_batch()
-        X = X.to("cuda:0")
-        output = model(X)
-    generate_csv(output)

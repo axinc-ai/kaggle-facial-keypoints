@@ -12,24 +12,39 @@ The objective of this task is to predict keypoint positions on face images. Data
 As a Deep Learning framework, I used [Pytorch](https://pytorch.org) version 1.3.
 
 ## Usage 
-To train a model on your environment, 
+If you want to training the model on your own environment, 
+```shell script
+$ python3 train.py 
 ```
-python3 train.py 
+If you want to use my pretrained model to fine-tuning, `--load` option is available.  
+```shell script
+$ python3 train.py --load
 ```
-If you want to use my pretrained model, 
+When you would like to generate kaggle submission file,
+```shell script
+$ python3 inference.py
+``` 
+Then type the model file name (generally saved as `save.pt`)
 ```
-python3 train.py --load
+save model file : [YOUR MODEL FILE NAME].pt
 ```
+
 
 ## Resutls
-Score : 3.50467
+| Kaggle Public Score  | Training epoch|
+|:-----:|:-----:|    
+| 3.25420 | 1000 epochs |
+|3.32088| 500 epochs|
+|3.50467|300 epochs|
+
+
+
 
 ## TODO
-- [ ] Cross Validation (looks my model tends to overfit)
+- [ ] Cross Validation
 - [ ] TensorboardX
 - [ ] log system
 - [ ] Improve usability
-- [ ] Refactoring generate CSV for submitting the results
 - [ ] Add comments to the functions
 
 ## Licence

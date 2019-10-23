@@ -2,6 +2,7 @@ import torch
 import sys
 from torch.autograd import Variable
 
+
 def torch2onnx(filename):
     try:
         model = torch.load(filename, map_location={"cuda:0": "cpu"})
@@ -16,5 +17,5 @@ def torch2onnx(filename):
 
 
 if __name__ == "__main__":
-    filename = "save_100epoch.pt"
+    filename = input("PyTorch model save file name : ")
     torch2onnx(filename)
