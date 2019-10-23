@@ -30,7 +30,7 @@ save model file : [YOUR MODEL FILE NAME].pt
 ```
 
 
-## Resutls
+## Results
 | Kaggle Public Score  | Training epoch|
 |:-----:|:-----:|    
 | 3.25420 | 1000 epochs |
@@ -46,6 +46,7 @@ save model file : [YOUR MODEL FILE NAME].pt
 - [ ] log system
 - [ ] Improve usability
 - [ ] Add comments to the functions
+- [ ] Generate Results image function 
 
 ## Licence
 [MIT](https://github.com/axinc-ai/kaggle-facial-keypoints/blob/master/LICENSE.txt)
