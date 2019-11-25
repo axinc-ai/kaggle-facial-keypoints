@@ -1,0 +1,11 @@
+RESULTS/
+checkpoints/
+data/
+__pycache__/
+.idea/
+training_images/
+test_images/
+
+
+*.png
+*.csv
