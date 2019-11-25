@@ -123,7 +123,11 @@ def training():
                          }
             model.info_dict = save_dict
             if epoch in SAVE_EPOCH_LIST:
-                torch.save(model, str(epoch) + "_" + SAVE_NAME)
+                torch.save(
+                    model,
+                    SAVE_NAME.replace(".pt", "_{}.pt".format(epoch))
+                )
+
             else:
                 torch.save(model, SAVE_NAME)
 
