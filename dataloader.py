@@ -63,7 +63,6 @@ class DataLoader:
             y = torch.from_numpy(y.astype(np.float32))
         else:
             y = None
-        # TODO be to variable ?
         X = torch.from_numpy(X).reshape(X.shape[0], 1, 96, 96)
         return X, y
 

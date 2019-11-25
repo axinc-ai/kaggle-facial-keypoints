@@ -9,7 +9,9 @@ import dataloader
 def save_figures(X, y, savename):
     X_, y_ = X.squeeze(dim=1).detach().cpu().numpy(), y.detach().cpu().numpy()
     fig = plt.figure(figsize=(12, 12))
-    fig.subplots_adjust(left=0, right=1, bottom=0, top=1, hspace=0.05, wspace=0.05)
+    fig.subplots_adjust(
+        left=0, right=1, bottom=0, top=1, hspace=0.05, wspace=0.05
+    )
     for i in range(16):
         axis = fig.add_subplot(4, 4, i + 1, xticks=[], yticks=[])
         axis.imshow(X_[i])
@@ -33,6 +35,6 @@ def generate_csv(output, filepath='data/IdLookupTable.csv'):
     rowid = pd.Series(rowid, name='RowId')
     loc = pd.Series(preded, name='Location')
     submission = pd.concat([rowid, loc * 48 + 48], axis=1)
-    submission.to_csv('submissions.csv', index=False)
+    submission.to_csv('submission.csv', index=False)
 
 

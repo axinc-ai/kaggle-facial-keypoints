@@ -90,7 +90,7 @@ def training():
                 utils.save_figures(
                     X,
                     out,
-                    "training_images/train_{}_{}.png".format(epoch)
+                    "training_images/train_{}.png".format(epoch)
                 )
                 print("training loss : {:12.4f}".format(train_loss), end='\r')
         avg_train_loss = mean(train_losses)
