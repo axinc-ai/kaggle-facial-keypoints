@@ -106,7 +106,7 @@ class DataLoader:
         flip_X = X[:, :, ::-1]  # flip images
         flip_y = copy.deepcopy(y)
         for a, b in flip_indices: # flip annotations
-            flip_y[a], flip_y[b] = y[b], y[a]
+            flip_y[:, a], flip_y[:, b] = y[:, b], y[:, a]
         new_X = np.vstack(np.array([X, flip_X]))
         new_y = np.vstack(np.array([y, flip_y]))
         return new_X, new_y
