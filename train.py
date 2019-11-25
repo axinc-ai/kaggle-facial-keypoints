@@ -15,15 +15,21 @@ from tensorboardX import SummaryWriter
 # TODO Cross validation ?
 # TODO which optimezer to use ? (For now, adam)
 # TODO check if this model doesn't just get average
+# TODO VARIABLES should be arguments
+
+"""
+python3 train.py --load
+"""
 
 
 BATCH_SIZE = 256
-EPOCH_SIZE = 300
+EPOCH_SIZE = 1000
+SAVE_EPOCH_LIST = [300, 500, 800]  # save model separtely
 DROPOUT = 0.4
 SHUFFLE = False  # TODO normally, True is better when training !
 L_RATE = 1e-04  # TODO find best value !
 DEVICE = "cuda:0" if torch.cuda.is_available() else "cpu"
-SAVE_NAME = "save.pt"
+SAVE_NAME = "checkpoints/save.pt"
 
 # Argument
 parser = argparse.ArgumentParser()
@@ -80,11 +86,11 @@ def training():
             train_losses.append(train_loss.item())
             train_loss.backward()
             optimizer.step()
-            if iteration % 10 == 0 or iteration == 1:
+            if iteration == 1:
                 utils.save_figures(
                     X,
                     out,
-                    "training_images/train_{}_{}.png".format(epoch, iteration // 10)
+                    "training_images/train_{}_{}.png".format(epoch)
                 )
                 print("training loss : {:12.4f}".format(train_loss), end='\r')
         avg_train_loss = mean(train_losses)
@@ -107,7 +113,8 @@ def training():
                         "test_images/test_{}.png".format(epoch))
             test_data_loader.restart()
 
-        if avg_train_loss < best_loss:
+        # TODO how to stop overfitting ?
+        if avg_train_loss < best_loss or epoch in SAVE_EPOCH_LIST:
             print(">>> Saving models...")
             best_loss = avg_train_loss
             save_dict = {"epoch": epoch,
@@ -115,7 +122,10 @@ def training():
                          "optimizer": optimizer.state_dict()
                          }
             model.info_dict = save_dict
-            torch.save(model, SAVE_NAME)
+            if epoch in SAVE_EPOCH_LIST:
+                torch.save(model, str(epoch) + "_" + SAVE_NAME)
+            else:
+                torch.save(model, SAVE_NAME)
 
 
 if __name__ == "__main__":
