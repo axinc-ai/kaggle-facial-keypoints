@@ -4,6 +4,7 @@ import numpy as np
 import torch
 from pandas.io.parsers import read_csv
 import sklearn.utils
+import copy
 # from matplotlib import pyplot as plt  # for debug purpose
 
 FTRAIN = 'data/training.csv'
@@ -53,6 +54,11 @@ class DataLoader:
         if not self.test:  # only FTRAIN has a label
             y = df[df.columns[:-1]].values
             y = (y - 48) / 48  # regularisation between -1 and 1
+            X = X.reshape(X.shape[0], 96, 96)
+
+            # data augmentation [flip]
+            X, y = self.data_aug_flip(X, y)
+
             X, y = sklearn.utils.shuffle(X, y, random_state=42)
             y = torch.from_numpy(y.astype(np.float32))
         else:
@@ -87,7 +93,26 @@ class DataLoader:
             idx = np.random.permutation(self.nb_file)
             self.X, self.y = self.X[:, idx], self.y[idx]
 
+    def data_aug_flip(self, X, y):
+        """
+        data augmentation function for trainig dataset [version flip]
+        :param X: images
+        :param y: anotation data
+        :return new_X, new_Y
+        """
+        flip_indices = [(0, 2), (1, 3), (4, 8), (5, 9), (6, 10), (7, 11),
+                        (12, 16), (13, 17), (14, 18), (15, 19), (22, 24),
+                        (23, 25)]
 
+        flip_X = X[:, :, ::-1]  # flip images
+        flip_y = copy.deepcopy(y)
+        for a, b in flip_indices: # flip annotations
+            flip_y[a], flip_y[b] = y[b], y[a]
+        new_X = np.vstack(np.array([X, flip_X]))
+        new_y = np.vstack(np.array([y, flip_y]))
+        return new_X, new_y
+
+        
 # for debug
 if __name__ == "__main__":
     shuffle = True
