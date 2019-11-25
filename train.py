@@ -80,9 +80,13 @@ def training():
             train_losses.append(train_loss.item())
             train_loss.backward()
             optimizer.step()
-            # if iteration % 10 == 0 or iteration == 1:
-            #     utils.save_figures(X, out, "training_images/train_{}_{}.png".format(epoch, iteration // 10))
-            #     print("training loss : {:12.4f}".format(train_loss), end='\r')
+            if iteration % 10 == 0 or iteration == 1:
+                utils.save_figures(
+                    X,
+                    out,
+                    "training_images/train_{}_{}.png".format(epoch, iteration // 10)
+                )
+                print("training loss : {:12.4f}".format(train_loss), end='\r')
         avg_train_loss = mean(train_losses)
         print("\n >>> Average training loss: {}".format(avg_train_loss))
         train_data_loader.restart(shuffle=SHUFFLE)
@@ -97,10 +101,13 @@ def training():
                 X = X.to(DEVICE)
                 out = model(X)
                 if val_iteration == 1:
-                    utils.save_figures(X, out, "test_images/test_{}.png".format(epoch))
+                    utils.save_figures(
+                        X,
+                        out,
+                        "test_images/test_{}.png".format(epoch))
             test_data_loader.restart()
 
-        if avg_train_loss < best_loss:  # TODO cross-validation ?
+        if avg_train_loss < best_loss:
             print(">>> Saving models...")
             best_loss = avg_train_loss
             save_dict = {"epoch": epoch,

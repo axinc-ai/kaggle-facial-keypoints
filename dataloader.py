@@ -26,34 +26,39 @@ class DataLoader:
 
     def load(self, cols=None):
         """
-        :param test: loading data from FTEST when the param is true, otherwise loading data from FTRAIN
-        :param cols: if you give a list to cols, this function returns only the data corresponding the cols
+        :param test: loading data from FTEST when the param is true, 
+                     otherwise loading data from FTRAIN
+        :param cols: if you give a list to cols, this function returns only 
+                     the data corresponding the cols
         :return:
         """
 
         fname = FTEST if self.test else FTRAIN
         df = read_csv(os.path.expanduser(fname))
 
-        # transform pixel values which are separated by "space" to a numpy array
+        # transform pixel values which are separated by " " to a numpy array
         df['Image'] = df['Image'].apply(lambda im: np.fromstring(im, sep=' '))
 
         if cols:
             df = df[list(cols) + ['Image']]
 
         print(df.count())  # output the number of each column
-        df = df.dropna()  # if there is no data, drop it  # TODO find a better solution ?
+        df = df.dropna()  # if there is no data, drop it
+        # df.fillna(method='ffill', inplace=True)
 
-        X = np.vstack(df['Image'].values) / 255.  # regularisation between 0 and 1
+        # regularisation between 0 and 1
+        X = np.vstack(df['Image'].values) / 255.  
         X = X.astype(np.float32)  # add channel information
 
         if not self.test:  # only FTRAIN has a label
             y = df[df.columns[:-1]].values
             y = (y - 48) / 48  # regularisation between -1 and 1
-            X, y = sklearn.utils.shuffle(X, y, random_state=42)  # shuffle the data (fixed seed)
+            X, y = sklearn.utils.shuffle(X, y, random_state=42)
             y = torch.from_numpy(y.astype(np.float32))
         else:
             y = None
-        X = torch.from_numpy(X).reshape(X.shape[0], 1, 96, 96)  # TODO be to variable ?
+        # TODO be to variable ?
+        X = torch.from_numpy(X).reshape(X.shape[0], 1, 96, 96)
         return X, y
 
     def get_batch(self):
@@ -86,14 +91,16 @@ class DataLoader:
 # for debug
 if __name__ == "__main__":
     shuffle = True
-    test = True
+    # test = True
+    test = False
     nb_batch = 32
     train_dataLoader = DataLoader(nb_batch, test=test)
-    for epoch in range(2):
-        print("===================================== epoch {} ======================================".format(epoch + 1))
-        while train_dataLoader.next_is_available():
-            X, y = train_dataLoader.get_batch()
-            print(X[0])
-            if not test:
-                print(y[0])
-        train_dataLoader.restart(shuffle=shuffle)
+    
+    # for epoch in range(2):
+    #     print("======= epoch {} =======".format(epoch + 1))
+    #     while train_dataLoader.next_is_available():
+    #         X, y = train_dataLoader.get_batch()
+    #         print(X[0])
+    #         if not test:
+    #             print(y[0])
+    #     train_dataLoader.restart(shuffle=shuffle)
