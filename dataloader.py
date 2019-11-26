@@ -2,6 +2,7 @@
 import os
 import numpy as np
 import torch
+import pandas as pd
 from pandas.io.parsers import read_csv
 import sklearn.utils
 import copy
@@ -14,7 +15,7 @@ FTEST = 'data/test.csv'
 # TODO how to use this class -> comments with example
 # TODO cross_validation ? (in this case, shuffle feature would be difficult)
 # TODO modify 48 for regularisation of y (generate image also)
-
+# TODO loading another dataset (transformed version etc.)
 
 class DataLoader:
     def __init__(self, nb_batch, test=False):
@@ -37,6 +38,11 @@ class DataLoader:
         fname = FTEST if self.test else FTRAIN
         df = read_csv(os.path.expanduser(fname))
 
+        # TODO add argument or something else
+        if not self.test:
+            df_transformed = read_csv(os.path.expanduser('data/rotate_30.csv'))
+            df = pd.concat([df, df_transformed])
+
         # transform pixel values which are separated by " " to a numpy array
         df['Image'] = df['Image'].apply(lambda im: np.fromstring(im, sep=' '))
 
@@ -46,9 +52,9 @@ class DataLoader:
         print(df.count())  # output the number of each column
         df = df.dropna()  # if there is no data, drop it
         # df.fillna(method='ffill', inplace=True)
-
+        print(df.info())
         # regularisation between 0 and 1
-        X = np.vstack(df['Image'].values) / 255.  
+        X = np.vstack(df['Image'].values) / 255.
         X = X.astype(np.float32)  # add channel information
 
         if not self.test:  # only FTRAIN has a label
