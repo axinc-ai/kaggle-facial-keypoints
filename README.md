@@ -31,11 +31,11 @@ save model file : [YOUR MODEL FILE NAME].pt
 
 
 ## Results
-| Kaggle Public Score  | Training epoch|
-|:-----:|:-----:|    
-| 3.25420 | 1000 epochs |
-|3.32088| 500 epochs|
-|3.50467|300 epochs|
+| Kaggle Private Score | Kaggle Public Score  | Training epoch |
+|:-----:|:-----:|:-----:|    
+|2.99794|3.08839|choose best epoch after 1000 epochs training|
+|2.97505|3.07060|500 epochs|
+|3.10676|3.21217|300 epochs|
 
 
 
