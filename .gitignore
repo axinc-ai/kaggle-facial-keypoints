@@ -9,3 +9,5 @@ test_images/
 
 *.png
 *.csv
+*.onnx
+*.prototxt
