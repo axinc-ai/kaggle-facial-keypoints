@@ -41,8 +41,6 @@ save model file : [YOUR MODEL FILE NAME].pt
 
 
 ## TODO
-- [ ] Cross Validation
-- [ ] TensorboardX
 - [ ] log system
 - [ ] Improve usability
 - [ ] Add comments to the functions

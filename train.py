@@ -4,7 +4,7 @@ import torch.nn as nn
 import math
 from statistics import mean
 import argparse
-import sys
+import sys, os, shutil
 from tensorboardX import SummaryWriter
 from datetime import datetime
 
@@ -25,7 +25,7 @@ python3 train.py --load
 dt = str(datetime.now()).replace(" ", "_")
 
 BATCH_SIZE = 256
-EPOCH_SIZE = 1000
+EPOCH_SIZE = 1500
 SAVE_EPOCH_LIST = [300, 500, 800]  # save model separtely
 DROPOUT = 0.4
 SHUFFLE = False  # TODO normally, True is better when training !
@@ -79,7 +79,7 @@ def training():
 
     for epoch in range(init_epoch, EPOCH_SIZE + 1):
         print(">>> Epoch {} / {}".format(epoch, EPOCH_SIZE))
-        print(">>> Start training")
+        # print(">>> Start training")
         model.train()  # training mode
 
         train_losses = []
@@ -100,13 +100,13 @@ def training():
                     out,
                     "training_images/train_{}.png".format(epoch)
                 )
-                print("training loss : {:12.4f}".format(train_loss), end='\r')
+                # print("training loss : {:12.4f}".format(train_loss), end='\r')
         avg_train_loss = mean(train_losses)
-        print("\n >>> Average training loss: {}".format(avg_train_loss))
+        # print("\n >>> Average training loss: {}".format(avg_train_loss))
         writer.add_scalar('avg_train_loss', avg_train_loss, epoch)
         train_data_loader.restart(shuffle=SHUFFLE)
 
-        print(">>> Start Test")
+        # print(">>> Start Test")
         model.eval()  # evaluation mode
         test_losses = []
         val_iteration = 0
@@ -124,12 +124,11 @@ def training():
                         out,
                         "test_images/test_{}.png".format(epoch))
             avg_test_loss = mean(test_losses)
-            print("\n >>> Average test loss: {}".format(avg_test_loss))
+            # print(">>> Average test loss: {}".format(avg_test_loss))
             writer.add_scalar('avg_test_loss', avg_test_loss, epoch)
             eval_data_loader.restart()
 
-        # TODO SAVE_EPOCH_LIST should just rename the existing save.pt
-        if avg_test_loss < best_loss or epoch in SAVE_EPOCH_LIST:
+        if avg_test_loss < best_loss:
             print(">>> Saving models...")
             best_loss = avg_test_loss
             save_dict = {"epoch": epoch,
@@ -137,16 +136,13 @@ def training():
                          "optimizer": optimizer.state_dict()
                          }
             model.info_dict = save_dict
-            if epoch in SAVE_EPOCH_LIST:
-                torch.save(
-                    model,
+            torch.save(model, SAVE_NAME)
+        if epoch in SAVE_EPOCH_LIST:
+            if os.path.isfile(SAVE_NAME):
+                shutil.copyfile(
+                    SAVE_NAME,
                     SAVE_NAME.replace(".pt", "_{}.pt".format(epoch))
                 )
-
-            else:
-                torch.save(model, SAVE_NAME)
-
-    # writer.export_scalars_to_json("./all_scalars.json")  # Do we need this ?
     writer.close()
 
 
