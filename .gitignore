@@ -5,6 +5,7 @@ __pycache__/
 .idea/
 training_images/
 test_images/
+runs/
 
 
 *.png
