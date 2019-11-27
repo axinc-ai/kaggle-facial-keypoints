@@ -1,6 +1,7 @@
 import sys
 import torch
-import utils, dataloader
+import utils
+import dataloader
 
 
 # generate submissions.csv file
@@ -18,7 +19,7 @@ def inference():
         sys.exit(0)
 
     # 1783 : length of test data set
-    test_data_loader = dataloader.DataLoader(1783, test=True)  
+    test_data_loader = dataloader.DataLoader(1783, test=True)
     model.eval()
     with torch.no_grad():
         X, _ = test_data_loader.get_batch()

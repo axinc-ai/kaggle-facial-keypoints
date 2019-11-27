@@ -6,6 +6,7 @@ from statistics import mean
 import argparse
 import sys
 from tensorboardX import SummaryWriter
+from datetime import datetime
 
 
 # TODO create SummaryWriter()
@@ -21,6 +22,7 @@ from tensorboardX import SummaryWriter
 python3 train.py --load
 """
 
+dt = str(datetime.now()).replace(" ", "_")
 
 BATCH_SIZE = 256
 EPOCH_SIZE = 1000
@@ -30,6 +32,7 @@ SHUFFLE = False  # TODO normally, True is better when training !
 L_RATE = 1e-04  # TODO find best value !
 DEVICE = "cuda:0" if torch.cuda.is_available() else "cpu"
 SAVE_NAME = "checkpoints/save.pt"
+SUMMARY_WRITER_PATH = "runs/flip_and_rotate30" + dt
 
 # Argument
 parser = argparse.ArgumentParser()
@@ -59,7 +62,12 @@ print(model)
 
 def training():
     train_data_loader = dataloader.DataLoader(BATCH_SIZE, test=False)
-    test_data_loader = dataloader.DataLoader(BATCH_SIZE, test=True)
+    eval_X, eval_y = train_data_loader.get_eval_data()
+    eval_data_loader = dataloader.DataLoader(
+        BATCH_SIZE, test=False, X=eval_X, y=eval_y
+    )
+
+    writer = SummaryWriter(SUMMARY_WRITER_PATH)
 
     if loading:
         best_loss = float(model.info_dict['best_loss'])
@@ -95,28 +103,35 @@ def training():
                 print("training loss : {:12.4f}".format(train_loss), end='\r')
         avg_train_loss = mean(train_losses)
         print("\n >>> Average training loss: {}".format(avg_train_loss))
+        writer.add_scalar('avg_train_loss', avg_train_loss, epoch)
         train_data_loader.restart(shuffle=SHUFFLE)
 
         print(">>> Start Test")
         model.eval()  # evaluation mode
+        test_losses = []
         val_iteration = 0
         with torch.no_grad():
-            while test_data_loader.next_is_available():
+            while eval_data_loader.next_is_available():
                 val_iteration += 1
-                X, _ = test_data_loader.get_batch()
-                X = X.to(DEVICE)
+                X, y = eval_data_loader.get_batch()
+                X, y = X.to(DEVICE), y.to(DEVICE)
                 out = model(X)
+                test_loss = nn.MSELoss()(out, y)
+                test_losses.append(test_loss.item())
                 if val_iteration == 1:
                     utils.save_figures(
                         X,
                         out,
                         "test_images/test_{}.png".format(epoch))
-            test_data_loader.restart()
+            avg_test_loss = mean(test_losses)
+            print("\n >>> Average test loss: {}".format(avg_test_loss))
+            writer.add_scalar('avg_test_loss', avg_test_loss, epoch)
+            eval_data_loader.restart()
 
-        # TODO how to stop overfitting ?
-        if avg_train_loss < best_loss or epoch in SAVE_EPOCH_LIST:
+        # TODO SAVE_EPOCH_LIST should just rename the existing save.pt
+        if avg_test_loss < best_loss or epoch in SAVE_EPOCH_LIST:
             print(">>> Saving models...")
-            best_loss = avg_train_loss
+            best_loss = avg_test_loss
             save_dict = {"epoch": epoch,
                          "best_loss": best_loss,
                          "optimizer": optimizer.state_dict()
@@ -131,9 +146,9 @@ def training():
             else:
                 torch.save(model, SAVE_NAME)
 
+    # writer.export_scalars_to_json("./all_scalars.json")  # Do we need this ?
+    writer.close()
+
 
 if __name__ == "__main__":
     training()
-
-
-
