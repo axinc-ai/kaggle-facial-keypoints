@@ -11,3 +11,5 @@ test_images/
 *.csv
 *.onnx
 *.prototxt
+
+.DS_Store
