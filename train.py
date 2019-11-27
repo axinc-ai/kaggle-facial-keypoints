@@ -78,7 +78,7 @@ def training():
         init_epoch = 1
 
     for epoch in range(init_epoch, EPOCH_SIZE + 1):
-        print(">>> Epoch {} / {}".format(epoch, EPOCH_SIZE))
+        print("\n>>> Epoch {} / {}".format(epoch, EPOCH_SIZE))
         # print(">>> Start training")
         model.train()  # training mode
 
@@ -100,7 +100,7 @@ def training():
                     out,
                     "training_images/train_{}.png".format(epoch)
                 )
-                # print("training loss : {:12.4f}".format(train_loss), end='\r')
+            # print("training loss : {:12.4f}".format(train_loss), end='\r')
         avg_train_loss = mean(train_losses)
         # print("\n >>> Average training loss: {}".format(avg_train_loss))
         writer.add_scalar('avg_train_loss', avg_train_loss, epoch)
@@ -124,7 +124,7 @@ def training():
                         out,
                         "test_images/test_{}.png".format(epoch))
             avg_test_loss = mean(test_losses)
-            # print(">>> Average test loss: {}".format(avg_test_loss))
+            print(">>> Average test loss: {}".format(avg_test_loss))
             writer.add_scalar('avg_test_loss', avg_test_loss, epoch)
             eval_data_loader.restart()
 

@@ -18,6 +18,8 @@ def inference():
         print("Couldn't find model")
         sys.exit(0)
 
+    print("best epoch was {}".format(model.info_dict['epoch']))
+
     # 1783 : length of test data set
     test_data_loader = dataloader.DataLoader(1783, test=True)
     model.eval()
