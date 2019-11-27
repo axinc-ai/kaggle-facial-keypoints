@@ -2,26 +2,38 @@
 import os
 import numpy as np
 import torch
+import pandas as pd
 from pandas.io.parsers import read_csv
-import sklearn.utils
+from sklearn.model_selection import train_test_split
 import copy
 # from matplotlib import pyplot as plt  # for debug purpose
 
 FTRAIN = 'data/training.csv'
 FTEST = 'data/test.csv'
 
-# TODO multithreading ? (cf. heritates Thread, Consumer-Producer)
 # TODO how to use this class -> comments with example
-# TODO cross_validation ? (in this case, shuffle feature would be difficult)
 # TODO modify 48 for regularisation of y (generate image also)
+# TODO loading another dataset (transformed version etc.)
+
+# TODO refactoring how to use evaluiation data
+# For now, create train_dataloader, then make eval_dataloader with arguments
+# eval_X, eval_y = train_loader.get_eval_data()
+# eval_loader = dataloader.Dataloader(
+#                   nb_batch,
+#                   test=False,
+#                   X=eval_X,
+#                   y=eval_y)
 
 
 class DataLoader:
-    def __init__(self, nb_batch, test=False):
+    def __init__(self, nb_batch, test=False, X=None, y=None):
         self.next_index = 0
         self.nb_batch = nb_batch
         self.test = test
-        self.X, self.y = self.load()
+        if X is None and y is None:
+            self.X, self.y, self.eval_X, self.eval_y = self.load()
+        else:
+            self.X, self.y = X, y
         self.nb_file = self.X.size(0)
         self.next = True  # when true, there remains the unreaded datas.
 
@@ -37,6 +49,11 @@ class DataLoader:
         fname = FTEST if self.test else FTRAIN
         df = read_csv(os.path.expanduser(fname))
 
+        # TODO add argument or something else
+        if not self.test:
+            df_transformed = read_csv(os.path.expanduser('data/rotate_30.csv'))
+            df = pd.concat([df, df_transformed])
+
         # transform pixel values which are separated by " " to a numpy array
         df['Image'] = df['Image'].apply(lambda im: np.fromstring(im, sep=' '))
 
@@ -46,12 +63,12 @@ class DataLoader:
         print(df.count())  # output the number of each column
         df = df.dropna()  # if there is no data, drop it
         # df.fillna(method='ffill', inplace=True)
-
+        print(df.info())
         # regularisation between 0 and 1
-        X = np.vstack(df['Image'].values) / 255.  
+        X = np.vstack(df['Image'].values) / 255.
         X = X.astype(np.float32)  # add channel information
 
-        if not self.test:  # only FTRAIN has a label
+        if not self.test:  # only FTRAIN has a label -> eval_X, eval_y
             y = df[df.columns[:-1]].values
             y = (y - 48) / 48  # regularisation between -1 and 1
             X = X.reshape(X.shape[0], 96, 96)
@@ -59,13 +76,25 @@ class DataLoader:
             # data augmentation [flip]
             X, y = self.data_aug_flip(X, y)
 
-            X, y = sklearn.utils.shuffle(X, y, random_state=42)
-            y = torch.from_numpy(y.astype(np.float32))
-        else:
-            y = None
-        X = torch.from_numpy(X).reshape(X.shape[0], 1, 96, 96)
-        return X, y
+            # X, y = sklearn.utils.shuffle(X, y, random_state=42)
+            X, eval_X, y, eval_y = train_test_split(
+                X, y, test_size=0.3, random_state=42
+            )
 
+            # numpy array to torch tensor
+            X = torch.from_numpy(X).reshape(X.shape[0], 1, 96, 96)
+            eval_X = torch.from_numpy(eval_X).reshape(
+                eval_X.shape[0], 1, 96, 96
+            )
+            y = torch.from_numpy(y.astype(np.float32))
+            eval_y = torch.from_numpy(eval_y.astype(np.float32))
+        else:
+            X = torch.from_numpy(X).reshape(X.shape[0], 1, 96, 96)
+            y, eval_X, eval_y = None, None, None
+
+        return X, y, eval_X, eval_y
+
+    # TODO modify to adapt evaluation mode
     def get_batch(self):
         X = self.X[self.next_index:self.next_index + self.nb_batch]
         if not self.test:
@@ -92,6 +121,12 @@ class DataLoader:
             idx = np.random.permutation(self.nb_file)
             self.X, self.y = self.X[:, idx], self.y[idx]
 
+    def get_eval_data(self):
+        X, y = self.eval_X, self.eval_y
+        self.eval_X = None  # release memory
+        self.eval_y = None
+        return X, y
+
     def data_aug_flip(self, X, y):
         """
         data augmentation function for trainig dataset [version flip]
@@ -105,7 +140,7 @@ class DataLoader:
 
         flip_X = X[:, :, ::-1]  # flip images
         flip_y = copy.deepcopy(y)
-        for a, b in flip_indices: # flip annotations
+        for a, b in flip_indices:  # flip annotations
             flip_y[:, a], flip_y[:, b] = y[:, b], y[:, a]
         flip_y[:, ::2] = -1 * flip_y[:, ::2]
         new_X = np.vstack(np.array([X, flip_X]))
@@ -113,7 +148,7 @@ class DataLoader:
 
         return new_X, new_y
 
-        
+
 # for debug
 if __name__ == "__main__":
     shuffle = True
@@ -121,7 +156,6 @@ if __name__ == "__main__":
     test = False
     nb_batch = 32
     train_dataLoader = DataLoader(nb_batch, test=test)
-    
     # for epoch in range(2):
     #     print("======= epoch {} =======".format(epoch + 1))
     #     while train_dataLoader.next_is_available():

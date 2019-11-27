@@ -4,8 +4,9 @@ import torch.nn as nn
 import math
 from statistics import mean
 import argparse
-import sys
+import sys, os, shutil
 from tensorboardX import SummaryWriter
+from datetime import datetime
 
 
 # TODO create SummaryWriter()
@@ -21,15 +22,22 @@ from tensorboardX import SummaryWriter
 python3 train.py --load
 """
 
+dt = str(datetime.now()).replace(" ", "_")
 
-BATCH_SIZE = 256
+BATCH_SIZE = 512
 EPOCH_SIZE = 1000
-SAVE_EPOCH_LIST = [300, 500, 800]  # save model separtely
+SAVE_EPOCH_LIST = []  # save model separtely
 DROPOUT = 0.4
 SHUFFLE = False  # TODO normally, True is better when training !
 L_RATE = 1e-04  # TODO find best value !
 DEVICE = "cuda:0" if torch.cuda.is_available() else "cpu"
 SAVE_NAME = "checkpoints/save.pt"
+SUMMARY_WRITER_PATH = "runs/flip_and_rotate30" + dt
+
+# scheduler config
+SCHEDULER = True
+STEP_SIZE = 100
+GAMMA = 0.5
 
 # Argument
 parser = argparse.ArgumentParser()
@@ -59,7 +67,17 @@ print(model)
 
 def training():
     train_data_loader = dataloader.DataLoader(BATCH_SIZE, test=False)
-    test_data_loader = dataloader.DataLoader(BATCH_SIZE, test=True)
+    eval_X, eval_y = train_data_loader.get_eval_data()
+    eval_data_loader = dataloader.DataLoader(
+        BATCH_SIZE, test=False, X=eval_X, y=eval_y
+    )
+
+    writer = SummaryWriter(SUMMARY_WRITER_PATH)
+
+    if SCHEDULER:
+        scheduler = torch.optim.lr_scheduler.StepLR(
+            optimizer, step_size=STEP_SIZE, gamma=GAMMA
+        )
 
     if loading:
         best_loss = float(model.info_dict['best_loss'])
@@ -70,9 +88,12 @@ def training():
         init_epoch = 1
 
     for epoch in range(init_epoch, EPOCH_SIZE + 1):
-        print(">>> Epoch {} / {}".format(epoch, EPOCH_SIZE))
-        print(">>> Start training")
+        print("\n>>> Epoch {} / {}".format(epoch, EPOCH_SIZE))
+        # print(">>> Start training")
         model.train()  # training mode
+
+        if SCHEDULER:
+            scheduler.step()
 
         train_losses = []
         iteration = 0
@@ -86,54 +107,57 @@ def training():
             train_losses.append(train_loss.item())
             train_loss.backward()
             optimizer.step()
-            if iteration == 1:
+            if False:   # if iteration == 1:
                 utils.save_figures(
                     X,
                     out,
                     "training_images/train_{}.png".format(epoch)
                 )
-                print("training loss : {:12.4f}".format(train_loss), end='\r')
+            # print("training loss : {:12.4f}".format(train_loss), end='\r')
         avg_train_loss = mean(train_losses)
-        print("\n >>> Average training loss: {}".format(avg_train_loss))
+        # print("\n >>> Average training loss: {}".format(avg_train_loss))
+        writer.add_scalar('avg_train_loss', avg_train_loss, epoch)
         train_data_loader.restart(shuffle=SHUFFLE)
 
-        print(">>> Start Test")
+        # print(">>> Start Test")
         model.eval()  # evaluation mode
+        test_losses = []
         val_iteration = 0
         with torch.no_grad():
-            while test_data_loader.next_is_available():
+            while eval_data_loader.next_is_available():
                 val_iteration += 1
-                X, _ = test_data_loader.get_batch()
-                X = X.to(DEVICE)
+                X, y = eval_data_loader.get_batch()
+                X, y = X.to(DEVICE), y.to(DEVICE)
                 out = model(X)
-                if val_iteration == 1:
+                test_loss = nn.MSELoss()(out, y)
+                test_losses.append(test_loss.item())
+                if val_iteration == 1 and epoch % 10 == 0:
                     utils.save_figures(
                         X,
                         out,
                         "test_images/test_{}.png".format(epoch))
-            test_data_loader.restart()
+            avg_test_loss = mean(test_losses)
+            print(">>> Average test loss: {}".format(avg_test_loss))
+            writer.add_scalar('avg_test_loss', avg_test_loss, epoch)
+            eval_data_loader.restart()
 
-        # TODO how to stop overfitting ?
-        if avg_train_loss < best_loss or epoch in SAVE_EPOCH_LIST:
+        if avg_test_loss < best_loss:
             print(">>> Saving models...")
-            best_loss = avg_train_loss
+            best_loss = avg_test_loss
             save_dict = {"epoch": epoch,
                          "best_loss": best_loss,
                          "optimizer": optimizer.state_dict()
                          }
             model.info_dict = save_dict
-            if epoch in SAVE_EPOCH_LIST:
-                torch.save(
-                    model,
+            torch.save(model, SAVE_NAME)
+        if epoch in SAVE_EPOCH_LIST:
+            if os.path.isfile(SAVE_NAME):
+                shutil.copyfile(
+                    SAVE_NAME,
                     SAVE_NAME.replace(".pt", "_{}.pt".format(epoch))
                 )
-
-            else:
-                torch.save(model, SAVE_NAME)
+    writer.close()
 
 
 if __name__ == "__main__":
     training()
-
-
-

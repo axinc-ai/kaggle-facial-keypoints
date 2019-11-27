@@ -5,6 +5,8 @@ __pycache__/
 .idea/
 training_images/
 test_images/
+runs/
+.ipynb_checkpoints/
 
 
 *.png
