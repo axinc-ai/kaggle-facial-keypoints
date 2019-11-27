@@ -9,10 +9,10 @@ PADDING = 1
 
 # For first conv
 # if you want to treat RGB, change this value to 3 (didn't test however)
-GRAY_SCALE = 1
+IMG_CHANNEL = 1
 FIRST_OUTPUT_CHANNELS = 32
-FIRST_KERNEL_SIZE = 5
-FIRST_STRIDE = 2
+FIRST_KERNEL_SIZE = 3
+FIRST_STRIDE = 1
 
 # Global
 OUTPUT_CHANNELS = 30  # 30 feature points
@@ -49,7 +49,7 @@ class ResNet(nn.Module):
         super(ResNet, self).__init__()
         # TODO search best set of channels (and make them modifiable easily)
         self.first_conv = nn.Conv2d(
-            in_channels=GRAY_SCALE,
+            in_channels=IMG_CHANNEL,
             out_channels=FIRST_OUTPUT_CHANNELS,
             kernel_size=FIRST_KERNEL_SIZE,
             stride=FIRST_STRIDE,
@@ -57,38 +57,38 @@ class ResNet(nn.Module):
         )
         self.block_1 = self._make_block(
             FIRST_OUTPUT_CHANNELS,
-            FIRST_OUTPUT_CHANNELS,
+            FIRST_OUTPUT_CHANNELS * 4,
             STRIDE,
             dropout=dropout
         )
         self.block_2 = self._make_block(
-            FIRST_OUTPUT_CHANNELS,
-            FIRST_OUTPUT_CHANNELS * 2,
-            STRIDE,
-            dropout=dropout
-        )
-        self.block_3 = self._make_block(
-            FIRST_OUTPUT_CHANNELS * 2,
-            FIRST_OUTPUT_CHANNELS * 4,
-            STRIDE,
-            dropout=dropout)
-        self.block_4 = self._make_block(
             FIRST_OUTPUT_CHANNELS * 4,
             FIRST_OUTPUT_CHANNELS * 8,
             STRIDE,
             dropout=dropout
         )
+        self.block_3 = self._make_block(
+            FIRST_OUTPUT_CHANNELS * 8,
+            FIRST_OUTPUT_CHANNELS * 16,
+            STRIDE,
+            dropout=dropout)
+        self.block_4 = self._make_block(
+            FIRST_OUTPUT_CHANNELS * 16,
+            FIRST_OUTPUT_CHANNELS * 16,
+            STRIDE,
+            dropout=dropout
+        )
         self.block_5 = self._make_block(
-            FIRST_OUTPUT_CHANNELS * 4,
-            FIRST_OUTPUT_CHANNELS * 4,
+            FIRST_OUTPUT_CHANNELS * 16,
+            FIRST_OUTPUT_CHANNELS * 16,
             STRIDE,
             dropout=dropout
         )
 
         self.avgpool = nn.AvgPool2d(kernel_size=(3, 3))
         self.last_lin = nn.Sequential(
-            nn.Linear(FIRST_OUTPUT_CHANNELS * 8, OUTPUT_CHANNELS * 4),
-            nn.Linear(OUTPUT_CHANNELS * 4, OUTPUT_CHANNELS)
+            nn.Linear(FIRST_OUTPUT_CHANNELS * 16, OUTPUT_CHANNELS * 16),
+            nn.Linear(OUTPUT_CHANNELS * 16, OUTPUT_CHANNELS)
         )
 
     def _make_block(self, in_channels, out_channels, stride, dropout=0.0):
@@ -111,24 +111,40 @@ class ResNet(nn.Module):
             dropout=dropout
         )
 
-    def forward(self, x):
+    def forward(self, x, verbose=False):
         x = self.first_conv(x)
-        # print(x.size())
+        if verbose:
+            print(x.size())
+
         x = self.block_1(x)
-        # print(x.size())
+        if verbose:
+            print(x.size())
+
         x = self.block_2(x)
-        # print(x.size())
+        if verbose:
+            print(x.size())
+
         x = self.block_3(x)
-        # print(x.size())
+        if verbose:
+            print(x.size())
+
         x = self.block_4(x)
-        # print(x.size())
-        # x = self.block_5(x)
-        # print(x.size())
+        if verbose:
+            print(x.size())
+
+        x = self.block_5(x)
+        if verbose:
+            print(x.size())
+
         x = self.avgpool(x)
-        # print(x.size())
+        if verbose:
+            print("avg_pool")
+            print(x.size())
+
         # reshape (Batch, Channels, 1, 1) to (Batch, Channels)
         x = self.last_lin(x.reshape(x.size(0), -1))
-        # print(x.size())
+        if verbose:
+            print(x.size())
         return x
 
 
@@ -138,5 +154,5 @@ if __name__ == "__main__":
     x = torch.rand(32, 1, 96, 96).to(device)
     # print(x.size())
     model = ResNet(dropout=0.4).to(device)
-    x = model(x)
+    x = model(x, verbose=True)
     # print(x.size())

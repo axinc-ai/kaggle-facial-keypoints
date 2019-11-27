@@ -6,9 +6,12 @@ __pycache__/
 training_images/
 test_images/
 runs/
+.ipynb_checkpoints/
 
 
 *.png
 *.csv
 *.onnx
 *.prototxt
+
+.DS_Store

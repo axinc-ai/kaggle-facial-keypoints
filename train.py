@@ -24,15 +24,20 @@ python3 train.py --load
 
 dt = str(datetime.now()).replace(" ", "_")
 
-BATCH_SIZE = 256
-EPOCH_SIZE = 1500
-SAVE_EPOCH_LIST = [300, 500, 800]  # save model separtely
+BATCH_SIZE = 512
+EPOCH_SIZE = 1000
+SAVE_EPOCH_LIST = []  # save model separtely
 DROPOUT = 0.4
 SHUFFLE = False  # TODO normally, True is better when training !
 L_RATE = 1e-04  # TODO find best value !
 DEVICE = "cuda:0" if torch.cuda.is_available() else "cpu"
 SAVE_NAME = "checkpoints/save.pt"
 SUMMARY_WRITER_PATH = "runs/flip_and_rotate30" + dt
+
+# scheduler config
+SCHEDULER = True
+STEP_SIZE = 100
+GAMMA = 0.5
 
 # Argument
 parser = argparse.ArgumentParser()
@@ -69,6 +74,11 @@ def training():
 
     writer = SummaryWriter(SUMMARY_WRITER_PATH)
 
+    if SCHEDULER:
+        scheduler = torch.optim.lr_scheduler.StepLR(
+            optimizer, step_size=STEP_SIZE, gamma=GAMMA
+        )
+
     if loading:
         best_loss = float(model.info_dict['best_loss'])
         init_epoch = int(model.info_dict['epoch']) + 1
@@ -82,6 +92,9 @@ def training():
         # print(">>> Start training")
         model.train()  # training mode
 
+        if SCHEDULER:
+            scheduler.step()
+
         train_losses = []
         iteration = 0
         while train_data_loader.next_is_available():
@@ -94,7 +107,7 @@ def training():
             train_losses.append(train_loss.item())
             train_loss.backward()
             optimizer.step()
-            if iteration == 1:
+            if False:   # if iteration == 1:
                 utils.save_figures(
                     X,
                     out,
@@ -118,7 +131,7 @@ def training():
                 out = model(X)
                 test_loss = nn.MSELoss()(out, y)
                 test_losses.append(test_loss.item())
-                if val_iteration == 1:
+                if val_iteration == 1 and epoch % 10 == 0:
                     utils.save_figures(
                         X,
                         out,
