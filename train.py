@@ -1,4 +1,4 @@
-import dataloader, resnet_model, utils
+import dataloader, resnet_model, utils, imagenet_resnet.py
 import torch
 import torch.nn as nn
 import math
@@ -24,7 +24,7 @@ python3 train.py --load
 
 dt = str(datetime.now()).replace(" ", "_")
 
-BATCH_SIZE = 512
+BATCH_SIZE = 128
 EPOCH_SIZE = 1000
 SAVE_EPOCH_LIST = []  # save model separtely
 DROPOUT = 0.4
@@ -60,7 +60,8 @@ if loading:
         sys.exit(0)
 else:
     print("Create new model")
-    model = resnet_model.ResNet(dropout=DROPOUT).to(DEVICE)
+    # model = resnet_model.ResNet(dropout=DROPOUT).to(DEVICE)
+    model = imagenet_resnet.resnet18()
     optimizer = torch.optim.Adam(model.parameters(), L_RATE)
 print(model)
 

@@ -8,11 +8,13 @@ from sklearn.model_selection import train_test_split
 import copy
 # from matplotlib import pyplot as plt  # for debug purpose
 
-FTRAIN = 'data/training.csv'
+# FTRAIN = 'data/training.csv'
+FTRAIN = 'data/resized226_org_train.csv'
+FTRANSFORMED = 'data/resized226_rotate_30.csv'
 FTEST = 'data/test.csv'
+IMG_SIZE = 226
 
 # TODO how to use this class -> comments with example
-# TODO modify 48 for regularisation of y (generate image also)
 # TODO loading another dataset (transformed version etc.)
 
 # TODO refactoring how to use evaluiation data
@@ -51,7 +53,7 @@ class DataLoader:
 
         # TODO add argument or something else
         if not self.test:
-            df_transformed = read_csv(os.path.expanduser('data/rotate_30.csv'))
+            df_transformed = read_csv(os.path.expanduser(FTRANSFORMED))
             df = pd.concat([df, df_transformed])
 
         # transform pixel values which are separated by " " to a numpy array
@@ -70,8 +72,9 @@ class DataLoader:
 
         if not self.test:  # only FTRAIN has a label -> eval_X, eval_y
             y = df[df.columns[:-1]].values
-            y = (y - 48) / 48  # regularisation between -1 and 1
-            X = X.reshape(X.shape[0], 96, 96)
+            y = (y - IMG_SIZE//2) / (IMG_SIZE // 2)  # regularisation between -1 and 1
+
+            X = X.reshape(X.shape[0], IMG_SIZE, IMG_SIZE)
 
             # data augmentation [flip]
             X, y = self.data_aug_flip(X, y)
@@ -82,14 +85,14 @@ class DataLoader:
             )
 
             # numpy array to torch tensor
-            X = torch.from_numpy(X).reshape(X.shape[0], 1, 96, 96)
+            X = torch.from_numpy(X).reshape(X.shape[0], 1, IMG_SIZE, IMG_SIZE)
             eval_X = torch.from_numpy(eval_X).reshape(
-                eval_X.shape[0], 1, 96, 96
+                eval_X.shape[0], 1, IMG_SIZE, IMG_SIZE
             )
             y = torch.from_numpy(y.astype(np.float32))
             eval_y = torch.from_numpy(eval_y.astype(np.float32))
         else:
-            X = torch.from_numpy(X).reshape(X.shape[0], 1, 96, 96)
+            X = torch.from_numpy(X).reshape(X.shape[0], 1, IMG_SIZE, IMG_SIZE)
             y, eval_X, eval_y = None, None, None
 
         return X, y, eval_X, eval_y
@@ -156,6 +159,7 @@ if __name__ == "__main__":
     test = False
     nb_batch = 32
     train_dataLoader = DataLoader(nb_batch, test=test)
+    print('done')
     # for epoch in range(2):
     #     print("======= epoch {} =======".format(epoch + 1))
     #     while train_dataLoader.next_is_available():
