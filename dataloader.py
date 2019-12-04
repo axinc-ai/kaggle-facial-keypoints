@@ -9,7 +9,7 @@ import copy
 # from matplotlib import pyplot as plt  # for debug purpose
 
 # FTRAIN = 'data/training.csv'
-FTRAIN = 'data/resized226_org_train.csv'
+FTRAIN = 'data/resized226.csv'
 FTRANSFORMED = 'data/resized226_rotate_30.csv'
 FTEST = 'data/test.csv'
 IMG_SIZE = 226

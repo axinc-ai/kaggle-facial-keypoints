@@ -5,6 +5,8 @@ from matplotlib import pyplot as plt
 import sys
 import dataloader
 
+# TODO figsize argument
+HALF_FIGSIZE = 113
 
 def save_figures(X, y, savename):
     X_, y_ = X.squeeze(dim=1).detach().cpu().numpy(), y.detach().cpu().numpy()
@@ -15,7 +17,7 @@ def save_figures(X, y, savename):
     for i in range(16):
         axis = fig.add_subplot(4, 4, i + 1, xticks=[], yticks=[])
         axis.imshow(X_[i])
-        points = np.vstack(np.split(y_[i], 15)).T * 48 + 48
+        points = np.vstack(np.split(y_[i], 15)).T * HALF_FIGSIZE + HALF_FIGSIZE
         axis.plot(points[0], points[1], 'o', color='red')
     fig.savefig(savename)
 
@@ -34,6 +36,7 @@ def generate_csv(output, filepath='data/IdLookupTable.csv'):
         preded.append(pre_list[x][y])
     rowid = pd.Series(rowid, name='RowId')
     loc = pd.Series(preded, name='Location')
+    # TODO debug here, is it okay to keep 48 to submit ?
     submission = pd.concat([rowid, loc * 48 + 48], axis=1)
     submission.to_csv('submission.csv', index=False)
 
