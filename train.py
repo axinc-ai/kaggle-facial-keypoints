@@ -1,4 +1,4 @@
-import dataloader, resnet_model, utils
+import dataloader, resnet_model, utils, imagenet_resnet
 import torch
 import torch.nn as nn
 import math
@@ -24,20 +24,21 @@ python3 train.py --load
 
 dt = str(datetime.now()).replace(" ", "_")
 
-BATCH_SIZE = 512
+BATCH_SIZE = 128
 EPOCH_SIZE = 1000
 SAVE_EPOCH_LIST = []  # save model separtely
 DROPOUT = 0.4
 SHUFFLE = False  # TODO normally, True is better when training !
-L_RATE = 1e-04  # TODO find best value !
+# L_RATE = 1e-04  # 1e-04 for 96 model
+L_RATE = 5e-05  # 226 model
 DEVICE = "cuda:0" if torch.cuda.is_available() else "cpu"
 SAVE_NAME = "checkpoints/save.pt"
-SUMMARY_WRITER_PATH = "runs/flip_and_rotate30" + dt
+SUMMARY_WRITER_PATH = "runs/affined_226+movexy_gamma0.8step150" + dt
 
 # scheduler config
 SCHEDULER = True
-STEP_SIZE = 100
-GAMMA = 0.5
+STEP_SIZE = 150
+GAMMA = 0.8
 
 # Argument
 parser = argparse.ArgumentParser()
@@ -60,7 +61,8 @@ if loading:
         sys.exit(0)
 else:
     print("Create new model")
-    model = resnet_model.ResNet(dropout=DROPOUT).to(DEVICE)
+    # model = resnet_model.ResNet(dropout=DROPOUT).to(DEVICE)
+    model = imagenet_resnet.resnet18().to(DEVICE)
     optimizer = torch.optim.Adam(model.parameters(), L_RATE)
 print(model)
 
@@ -107,7 +109,7 @@ def training():
             train_losses.append(train_loss.item())
             train_loss.backward()
             optimizer.step()
-            if False:   # if iteration == 1:
+            if iteration == 1 and epoch % 10 == 0:
                 utils.save_figures(
                     X,
                     out,
