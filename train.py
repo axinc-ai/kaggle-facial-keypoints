@@ -30,15 +30,15 @@ SAVE_EPOCH_LIST = []  # save model separtely
 DROPOUT = 0.4
 SHUFFLE = False  # TODO normally, True is better when training !
 # L_RATE = 1e-04  # 1e-04 for 96 model
-L_RATE = 1e-05  # 226 model
+L_RATE = 5e-05  # 226 model
 DEVICE = "cuda:0" if torch.cuda.is_available() else "cpu"
 SAVE_NAME = "checkpoints/save.pt"
-SUMMARY_WRITER_PATH = "runs/226*226" + dt
+SUMMARY_WRITER_PATH = "runs/affined_226+movexy_gamma0.8step150" + dt
 
 # scheduler config
 SCHEDULER = True
-STEP_SIZE = 100
-GAMMA = 0.5
+STEP_SIZE = 150
+GAMMA = 0.8
 
 # Argument
 parser = argparse.ArgumentParser()
@@ -112,7 +112,7 @@ def training():
             if iteration == 1 and epoch % 10 == 0:
                 utils.save_figures(
                     X,
-                    y, # out,
+                    out,
                     "training_images/train_{}.png".format(epoch)
                 )
             # print("training loss : {:12.4f}".format(train_loss), end='\r')

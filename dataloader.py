@@ -10,7 +10,7 @@ import copy
 
 # FTRAIN = 'data/training.csv'
 FTRAIN = 'data/resized226.csv'
-FTRANSFORMED = 'data/resized226_rotate_30.csv'
+FTRANSFORMED = 'data/affine_226.csv'
 FTEST = 'data/test.csv'
 IMG_SIZE = 226
 
